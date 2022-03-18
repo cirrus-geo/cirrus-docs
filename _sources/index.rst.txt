@@ -10,6 +10,16 @@ Welcome to Cirrus's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   intro
+   arch
+   config-deploy
+   operation
+   components/index
+   cloudformation
+   statedb
+   monitoring
+   examples/index
+   roadmap
 
 
 Indices and tables
