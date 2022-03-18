@@ -6,8 +6,7 @@
 SPHINXOPTS    +=
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
-BUILDDIR      = gh-pages
-GHPAGESBR     = gh-pages
+BUILDDIR      = _build
 
 # Put it first so that "make" without argument is like "make help".
 help:
@@ -15,20 +14,25 @@ help:
 
 .PHONY: help Makefile
 
-$(BUILDDIR):
-	git worktree add $(BUILDDIR) $(GHPAGESBR)
+gh-pages:
+	git worktree add gh-pages gh-pages
 
-$(BUILDDIR)/.nojekyll: $(BUILDDIR)
-	touch $(BUILDDIR)/.nojekyll
+.PHONY: gh-pages-clean
+gh-pages-clean: gh-pages
+	rm -rf gh-pages/*
 
-.PHONY: worktree
-worktree: $(BUILDDIR)/.nojekyll
+.PHONY: gh-pages-copy
+gh-pages-copy: gh-pages-clean
+	cp -r $(BUILDDIR)/html/* gh-pages/
+
+.PHONY: gh-pages-update 
+gh-pages-update: html gh-pages-copy
 
 .PHONY: clean
-clean: worktree
+clean:
 	rm -rf $(BUILDDIR)/*
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile worktree
+%: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)

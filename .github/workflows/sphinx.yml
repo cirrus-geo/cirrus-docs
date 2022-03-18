@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Prep build dir
-        run: make clean
       - name: Sphinx build
         uses: ammaraskar/sphinx-action@master
         with:
           docs-folder: "./"
+      - name: Copy to gh-pages
+        run: make gh-pages-copy
       - name: Commit documentation changes
         run: |
           cd gh-pages
