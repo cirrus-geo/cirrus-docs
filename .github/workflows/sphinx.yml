@@ -11,10 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: ammaraskar/sphinx-action@master
+      - name: Install git
+        run: |
+          apt-get update -y && apt-get install -y git
+          make clean
+      - name: Sphinx build
+        uses: ammaraskar/sphinx-action@master
         with:
-          pre-build-command: "apt-get update -y && apt-get install -y git"
-          build-command: "make clean && make build"
+          #build-command: "make clean && make build"
           docs-folder: "./"
       - name: Commit documentation changes
         run: |
