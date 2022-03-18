@@ -2,17 +2,29 @@ name: CI
 
 on:
   push:
-    branches:    
+    branches:
       - main
+  pull_request:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v1
-    # Standard drop-in approach that should work for most people.
-    - uses: ammaraskar/sphinx-action@master
-      with:
-        docs-folder: "./"
+      - uses: actions/checkout@v1
+      - uses: ammaraskar/sphinx-action@master
+        build-command: "make clean && make build"
+        with:
+          docs-folder: "./"
+      - name: Commit documentation changes
+        run: |
+          cd gh-pages
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "CI doc updates" -a ||:
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: gh-pages
+          directory: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
