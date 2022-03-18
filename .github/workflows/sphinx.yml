@@ -12,8 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: ammaraskar/sphinx-action@master
-        build-command: "make clean && make build"
         with:
+          build-command: "make clean && make build"
           docs-folder: "./"
       - name: Commit documentation changes
         run: |
