@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cirrus Architecture &mdash; Cirrus  documentation</title>
+  <title>Cirrus architecture &mdash; Cirrus  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -41,8 +41,9 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction to Cirrus</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Cirrus Architecture</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#diagrams">Diagrams</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Cirrus architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cirrus-overview">Cirrus overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#workflow-structure">Workflow structure</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#definitions-glossary-tasks-workflows-feeders">Definitions/Glossary - tasks, workflows, feeders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#naming-conventions">Naming conventions</a></li>
 </ul>
@@ -71,7 +72,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Cirrus Architecture</li>
+      <li>Cirrus architecture</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/arch.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -82,9 +83,44 @@
            <div itemprop="articleBody">
              
   <div class="section" id="cirrus-architecture">
-<h1>Cirrus Architecture<a class="headerlink" href="#cirrus-architecture" title="Permalink to this headline"></a></h1>
-<div class="section" id="diagrams">
-<h2>Diagrams<a class="headerlink" href="#diagrams" title="Permalink to this headline"></a></h2>
+<h1>Cirrus architecture<a class="headerlink" href="#cirrus-architecture" title="Permalink to this headline"></a></h1>
+<div class="section" id="cirrus-overview">
+<h2>Cirrus overview<a class="headerlink" href="#cirrus-overview" title="Permalink to this headline"></a></h2>
+<p>An overall picture of Cirrus looks like this:</p>
+<img alt="_images/arch-overview.png" src="_images/arch-overview.png" />
+<p>As shown in that diagram, input Cirrus Process Payloads are published into an
+input SNS topic via users or automated <a class="reference internal" href="components/feeders.html"><span class="doc">Feeder</span></a>
+processes. Those input payloads are enqueued in an SQS queue for processing by
+the <code class="docutils literal notranslate"><span class="pre">process</span></code> lambda.  <code class="docutils literal notranslate"><span class="pre">process</span></code> creates or updates the <a class="reference internal" href="statedb.html"><span class="doc">State DB</span></a> record for the payload and starts a <a class="reference internal" href="components/workflows/index.html"><span class="doc">Workflow</span></a> execution by dispatching the payload to the
+specified Workflow.</p>
+<p>Any output items and their assets are persisted to S3, and the output items are
+published to an output SNS topic that can notify downstream subscribers like
+stac-server of newly-processed items.</p>
+<p>At the end of a workflow execution an EventBridge event is triggered, which
+notifies the listening <code class="docutils literal notranslate"><span class="pre">update-state</span></code> lambda that the execution has
+completed.  <code class="docutils literal notranslate"><span class="pre">update-state</span></code> updates the State DB record for the processed
+payload in accordance with the final workflow state (success, failed, aborted,
+or invalid), and triggers any necessary follow-up actions. For example, failed
+or invalid executions can trigger notfications to the Failure/Invalid SNS
+topic(s), and successful payloads using <a class="reference internal" href="components/workflows/chaining.html"><span class="doc">workflow chaining</span></a> can be re-enqueued for the next stage of the
+processing chain.</p>
+</div>
+<div class="section" id="workflow-structure">
+<h2>Workflow structure<a class="headerlink" href="#workflow-structure" title="Permalink to this headline"></a></h2>
+<p>Workflows are composed of one or more <a class="reference internal" href="components/tasks.html"><span class="doc">Tasks</span></a>, which use
+an input Cirrus Process Payload to define input metadata/assets for the Task
+processing. A workflow could look something like this:</p>
+<img alt="_images/workflow-example.png" src="_images/workflow-example.png" />
+<p>This example workflow begins with a preprocessing step to do some initial
+metadata modifications. Following that, a batch task to perform some
+computationally-intensive manipulation of the input item data assets, and a
+create preview task then generates a new preview image asset. The workflow ends
+with a publish task step, which pushes the final generated item to S3 for
+persistence and the Cirrus publish SNS topic for and subscribed downstream
+consumers of this Workflows’s items.</p>
+<p>In the event of any task failure, the failure step in the step function ensures
+that the step function execution will end in a <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state. If all steps
+complete successfully then the execution will end in a <code class="docutils literal notranslate"><span class="pre">SUCCEEDED</span></code> state.</p>
 </div>
 <div class="section" id="definitions-glossary-tasks-workflows-feeders">
 <h2>Definitions/Glossary - tasks, workflows, feeders<a class="headerlink" href="#definitions-glossary-tasks-workflows-feeders" title="Permalink to this headline"></a></h2>

@@ -19,7 +19,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Cirrus Architecture" href="arch.html" />
+    <link rel="next" title="Cirrus architecture" href="arch.html" />
     <link rel="prev" title="Welcome to Cirrus’s documentation!" href="index.html" /> 
 </head>
 
@@ -44,16 +44,17 @@
 <li class="toctree-l2"><a class="reference internal" href="#what-is-cirrus">What is Cirrus?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#why-cirrus">Why Cirrus?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#concepts">Concepts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cirrus-components">Cirrus Components</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#stac-based-workflows">STAC-based workflows</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#horizontal-vs-vertical-scaling">Horizontal vs vertical scaling</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#relationship-with-stac-server">Relationship with stac-server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#example-use-cases">Example use cases</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#aws-services-used">AWS Services used</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aws-services-used">AWS services used</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="arch.html">Cirrus Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="arch.html">Cirrus architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config-deploy.html">Configuration and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="operation.html">Basic Operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="components/index.html">Cirrus Components</a></li>
@@ -92,12 +93,34 @@
 <h1>Introduction to Cirrus<a class="headerlink" href="#introduction-to-cirrus" title="Permalink to this headline"></a></h1>
 <div class="section" id="what-is-cirrus">
 <h2>What is Cirrus?<a class="headerlink" href="#what-is-cirrus" title="Permalink to this headline"></a></h2>
+<p>Cirrus is a <a class="reference external" href="https://github.com/cirrus-geo/cirrus-docs">STAC</a>-based geospatial processing pipeline built using a serverless
+and scalable architecture. Cirrus can scale from tiny workloads of tens of items
+to massive workloads of millions of items in both a cost-efficient and
+performance-efficient manner, regardless if your pipeline processing takes
+seconrds, hours, or longer.</p>
+<p>Cirrus made of <a class="reference external" href="https://cirrus-geo.github.com/cirrus-geo">cirrus-geo</a>, a cli-based project mangement and deploy tool, as
+well as <a class="reference external" href="https://cirrus-geo.github.com/cirrus-lib">cirrus-lib</a>, a Python library providing a number of useful
+abstractions solving common needs for users writing their own Cirrus components.</p>
 </div>
 <div class="section" id="why-cirrus">
 <h2>Why Cirrus?<a class="headerlink" href="#why-cirrus" title="Permalink to this headline"></a></h2>
 </div>
 <div class="section" id="concepts">
 <h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline"></a></h2>
+<div class="section" id="cirrus-components">
+<h3>Cirrus Components<a class="headerlink" href="#cirrus-components" title="Permalink to this headline"></a></h3>
+<p>Cirrus is organized into reusable blocks called <a class="reference internal" href="components/index.html"><span class="doc">Components</span></a>, which can be broken down into three main types:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="components/feeders.html"><span class="doc">Feeders</span></a>: take arbitrary input in and create a
+Cirrus Process Payload, which is enqueue for processing</p></li>
+<li><p><a class="reference internal" href="components/tasks.html"><span class="doc">Tasks</span></a>: the basic unit of work in a Workflow, uses a
+Cirrus Process Payload for both input and output</p></li>
+<li><p><span class="xref std std-doc">Worflows</span>: a set of Tasks implementing a
+processing pipeline to transform a given input into one or more output STAC
+items</p></li>
+</ul>
+<p>An additional component type is that of a <a class="reference internal" href="components/functions.html"><span class="doc">Function</span></a>, though they are less commonly extended by end users.</p>
+</div>
 <div class="section" id="stac-based-workflows">
 <h3>STAC-based workflows<a class="headerlink" href="#stac-based-workflows" title="Permalink to this headline"></a></h3>
 </div>
@@ -107,12 +130,32 @@
 </div>
 <div class="section" id="relationship-with-stac-server">
 <h2>Relationship with stac-server<a class="headerlink" href="#relationship-with-stac-server" title="Permalink to this headline"></a></h2>
+<p>Cirrus Workflows create STAC items, which are stored in S3 for persistence and
+can be published to <a class="reference external" href="https://github.com/stac-utils/stac-server">stac-server</a> (or any other STAC API) for indexing/search.
+In other words, Cirrus generates the data, stac-server makes it easily
+accessible to end-users and the whole world of STAC tooling.</p>
 </div>
 <div class="section" id="example-use-cases">
 <h2>Example use cases<a class="headerlink" href="#example-use-cases" title="Permalink to this headline"></a></h2>
 </div>
 <div class="section" id="aws-services-used">
-<h2>AWS Services used<a class="headerlink" href="#aws-services-used" title="Permalink to this headline"></a></h2>
+<h2>AWS services used<a class="headerlink" href="#aws-services-used" title="Permalink to this headline"></a></h2>
+<p>Cirrus is built on top of a number of AWS services that allow its serverless and
+scalable architecture, including:</p>
+<ul class="simple">
+<li><p>Lambda: underlays tasks, feeders, and functions</p></li>
+<li><p>Batch: supports longer runtimes and/or custom resource requirements for
+feeders and tasks</p></li>
+<li><p>SNS: messages to multiple subscribers</p></li>
+<li><p>SQS: message queueing for reliability</p></li>
+<li><p>DynamoDB: State-tracking database</p></li>
+<li><p>Step Functions: multi-step functions underlying workflows</p></li>
+<li><p>ECR: image hosting for batch and lambda containers</p></li>
+<li><p>IAM: funciton roles and associated permissions/access policies</p></li>
+<li><p>S3: persistent storage for input payloads and generated items and their assets</p></li>
+<li><p>CloudFormation: infrastructure-as-code and deployment automation</p></li>
+<li><p>EventBridge: trigger processing on specific events, like workflow completion</p></li>
+</ul>
 </div>
 </div>
 
@@ -121,7 +164,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Cirrus’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="arch.html" class="btn btn-neutral float-right" title="Cirrus Architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="arch.html" class="btn btn-neutral float-right" title="Cirrus architecture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
