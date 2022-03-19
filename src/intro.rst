@@ -10,7 +10,7 @@ to massive workloads of millions of items in both a cost-efficient and
 performance-efficient manner, regardless if your pipeline processing takes
 seconrds, hours, or longer.
 
-Cirrus made of `cirrus-geo`_, a cli-based project mangement and deploy tool, as
+Cirrus is made up of `cirrus-geo`_, a cli-based project mangement and deploy tool, as
 well as `cirrus-lib`_, a Python library providing a number of useful
 abstractions solving common needs for users writing their own Cirrus components.
 
