@@ -8,4 +8,4 @@ Cirrus Components
    feeders
    functions
    tasks
-   workflows
+   workflows/index.rst
