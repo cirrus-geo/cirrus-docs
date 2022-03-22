@@ -12,6 +12,7 @@ Welcome to Cirrus's documentation!
 
    intro
    arch
+   payload
    config-deploy
    operation
    components/index
@@ -19,6 +20,7 @@ Welcome to Cirrus's documentation!
    statedb
    monitoring
    examples/index
+   best-practices
    roadmap
 
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Introduction to Cirrus &mdash; Cirrus  documentation</title>
+  <title>Getting started with Cirrus &mdash; Cirrus  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -40,21 +40,28 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction to Cirrus</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started with Cirrus</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-is-cirrus">What is Cirrus?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#why-cirrus">Why Cirrus?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#concepts">Concepts</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#cirrus-components">Cirrus Components</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#stac-based-workflows">STAC-based workflows</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#horizontal-vs-vertical-scaling">Horizontal vs vertical scaling</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cirrus-components">Cirrus Components</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#horizontal-and-vertical-scaling">Horizontal and vertical scaling</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#relationship-with-stac-server">Relationship with stac-server</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#example-use-cases">Example use cases</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#aws-services-used">AWS services used</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-to-go-next">Where to go next?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#infrastructure-engineers">Infrastructure Engineers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#framework-users">Framework Users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#algorithm-developers">Algorithm Developers</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="arch.html">Cirrus architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="payload.html">Cirrus Process Payload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config-deploy.html">Configuration and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="operation.html">Basic Operation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="components/index.html">Cirrus Components</a></li>
@@ -62,6 +69,7 @@
 <li class="toctree-l1"><a class="reference internal" href="statedb.html">State Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="monitoring.html">Pipeline Monitoring</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples/index.html">Cirrus Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="best-practices.html">Cirrus best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
 </ul>
 
@@ -79,7 +87,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Introduction to Cirrus</li>
+      <li>Getting started with Cirrus</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/intro.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -89,11 +97,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="introduction-to-cirrus">
-<h1>Introduction to Cirrus<a class="headerlink" href="#introduction-to-cirrus" title="Permalink to this headline"></a></h1>
+  <div class="section" id="getting-started-with-cirrus">
+<h1>Getting started with Cirrus<a class="headerlink" href="#getting-started-with-cirrus" title="Permalink to this headline"></a></h1>
 <div class="section" id="what-is-cirrus">
 <h2>What is Cirrus?<a class="headerlink" href="#what-is-cirrus" title="Permalink to this headline"></a></h2>
-<p>Cirrus is a <a class="reference external" href="https://github.com/cirrus-geo/cirrus-docs">STAC</a>-based geospatial processing pipeline built using a serverless
+<p>Cirrus is a <a class="reference external" href="https://stacspec.org/">STAC</a>-based geospatial processing pipeline built using a serverless
 and scalable architecture. Cirrus can scale from tiny workloads of tens of items
 to massive workloads of millions of items in both a cost-efficient and
 performance-efficient manner, regardless if your pipeline processing takes
@@ -107,6 +115,18 @@ abstractions solving common needs for users writing their own Cirrus components.
 </div>
 <div class="section" id="concepts">
 <h2>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline"></a></h2>
+<div class="section" id="stac-based-workflows">
+<h3>STAC-based workflows<a class="headerlink" href="#stac-based-workflows" title="Permalink to this headline"></a></h3>
+<p>A key principal of Cirrus is the use of the <a class="reference external" href="https://stacspec.org/">STAC</a> metadata specification as a
+central tennent of the <a class="reference internal" href="payload.html"><span class="doc">Cirrus Process Payload</span></a> format. In this
+way Cirrus encourages a highly-interoperable, metadata-first focus for both
+pipeline operators and end-users alike.</p>
+<p>Cirrus pipelines are, ideally, STAC-in and STAC-out, ensuring compatability with
+the full range of tooling and services avaialble in the STAC ecosystem. Though
+opinionated in this respect, Cirrus remains flexible to accommodate varied
+use-cases and data sources, such that input format requiremens can be relaxed as
+needed for a given workflow.</p>
+</div>
 <div class="section" id="cirrus-components">
 <h3>Cirrus Components<a class="headerlink" href="#cirrus-components" title="Permalink to this headline"></a></h3>
 <p>Cirrus is organized into reusable blocks called <a class="reference internal" href="components/index.html"><span class="doc">Components</span></a>, which can be broken down into three main types:</p>
@@ -115,17 +135,25 @@ abstractions solving common needs for users writing their own Cirrus components.
 Cirrus Process Payload, which is enqueue for processing</p></li>
 <li><p><a class="reference internal" href="components/tasks.html"><span class="doc">Tasks</span></a>: the basic unit of work in a Workflow, uses a
 Cirrus Process Payload for both input and output</p></li>
-<li><p><span class="xref std std-doc">Worflows</span>: a set of Tasks implementing a
+<li><p><a class="reference internal" href="components/workflows/index.html"><span class="doc">Worflows</span></a>: a set of Tasks implementing a
 processing pipeline to transform a given input into one or more output STAC
 items</p></li>
 </ul>
 <p>An additional component type is that of a <a class="reference internal" href="components/functions.html"><span class="doc">Function</span></a>, though they are less commonly extended by end users.</p>
 </div>
-<div class="section" id="stac-based-workflows">
-<h3>STAC-based workflows<a class="headerlink" href="#stac-based-workflows" title="Permalink to this headline"></a></h3>
-</div>
-<div class="section" id="horizontal-vs-vertical-scaling">
-<h3>Horizontal vs vertical scaling<a class="headerlink" href="#horizontal-vs-vertical-scaling" title="Permalink to this headline"></a></h3>
+<div class="section" id="horizontal-and-vertical-scaling">
+<h3>Horizontal and vertical scaling<a class="headerlink" href="#horizontal-and-vertical-scaling" title="Permalink to this headline"></a></h3>
+<p>Cirrus can scale both horizontally and vertically to match the requirements of
+diverse workloads.</p>
+<p>Cirrus supports scaling workflow execution capacity as-needed without requiring
+expensive capacity reservations to support peak demands. This scaling can
+accommadate anything from highly intermittent one-off executions to massively
+parallel processing across hundreds of thousands of simultaneous workflow
+executions (or more).</p>
+<p>Vertical scaling support also allow compute resources to matched to different
+workloads/requirements within a workflow execution. In other words, executions
+are not tied to a specific instance for their duration, but can instead utilize
+optimal instance sizes/types on a per-task basis.</p>
 </div>
 </div>
 <div class="section" id="relationship-with-stac-server">
@@ -156,6 +184,32 @@ feeders and tasks</p></li>
 <li><p>CloudFormation: infrastructure-as-code and deployment automation</p></li>
 <li><p>EventBridge: trigger processing on specific events, like workflow completion</p></li>
 </ul>
+</div>
+<div class="section" id="where-to-go-next">
+<h2>Where to go next?<a class="headerlink" href="#where-to-go-next" title="Permalink to this headline"></a></h2>
+<p>New Cirrus users may want to progress through the Cirrus documentation
+following different paths, depending on their role. We’ve broken down a few
+tracks for key Cirrus user types: work through the list of docs for your role
+in the order provided, before branching out to the rest of the docs as
+necessary.</p>
+<div class="section" id="infrastructure-engineers">
+<h3>Infrastructure Engineers<a class="headerlink" href="#infrastructure-engineers" title="Permalink to this headline"></a></h3>
+<p><em>Those that are deploying Cirrus and managing the Cirrus infrastructure.</em></p>
+</div>
+<div class="section" id="framework-users">
+<h3>Framework Users<a class="headerlink" href="#framework-users" title="Permalink to this headline"></a></h3>
+<p><em>Those that are configuring, operating, and monitoring pipeline workflows.</em></p>
+</div>
+<div class="section" id="algorithm-developers">
+<h3>Algorithm Developers<a class="headerlink" href="#algorithm-developers" title="Permalink to this headline"></a></h3>
+<p><em>Those writing code to be run as Cirrus tasks within workflows.</em></p>
+<ul class="simple">
+<li><p><a class="reference internal" href="components/index.html"><span class="doc">Components</span></a></p></li>
+<li><p><a class="reference internal" href="components/tasks.html"><span class="doc">Tasks</span></a></p></li>
+<li><p><a class="reference internal" href="payload.html"><span class="doc">Cirrus Process Payload format</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cirrus-lib</span></code> documentation</p></li>
+</ul>
+</div>
 </div>
 </div>
 

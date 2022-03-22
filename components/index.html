@@ -19,7 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Feeders" href="feeders.html" />
+    <link rel="next" title="Cloudformation Support" href="../cloudformation.html" />
     <link rel="prev" title="Basic Operation" href="../operation.html" /> 
 </head>
 
@@ -40,21 +40,23 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction to Cirrus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Getting started with Cirrus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../arch.html">Cirrus architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../payload.html">Cirrus Process Payload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../config-deploy.html">Configuration and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../operation.html">Basic Operation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Cirrus Components</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="feeders.html">Feeders</a></li>
-<li class="toctree-l2"><a class="reference internal" href="functions.html">Functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html">Tasks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflows/index.html">Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#feeders">Feeders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tasks">Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#workflows">Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#functions">Functions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../cloudformation.html">Cloudformation Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../statedb.html">State Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../monitoring.html">Pipeline Monitoring</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Cirrus Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../best-practices.html">Cirrus best practices</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
 </ul>
 
@@ -84,40 +86,56 @@
              
   <div class="section" id="cirrus-components">
 <h1>Cirrus Components<a class="headerlink" href="#cirrus-components" title="Permalink to this headline"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="feeders.html">Feeders</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="feeders.html#lambda-batch-local">Lambda, Batch, Local?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="feeders.html#anatomy-of-a-feeder">Anatomy of a Feeder</a></li>
-<li class="toctree-l2"><a class="reference internal" href="feeders.html#creating-new-feeder">Creating new feeder</a></li>
-<li class="toctree-l2"><a class="reference internal" href="feeders.html#spawning-batch-feeders-with-a-lambda-feeder">Spawning Batch feeders with a Lambda feeder</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="functions.html">Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tasks.html">Tasks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#lambda-vs-batch">Lambda vs Batch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#anatomy-of-a-task">Anatomy of a task</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#task-template">Task template</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#task-specific-parameters">Task specific parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#creating-a-new-lambda-task">Creating a new Lambda task</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#creating-a-new-batch-task">Creating a new Batch task</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#compute-environments">Compute Environments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#using-spot-market">Using SPOT market</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#iam-permissions">IAM permissions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#using-batch-lambda-runner-to-run-lambdas-as-batch">Using Batch lambda runner to run Lambdas as Batch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tasks.html#running-tasks-locally">Running tasks locally</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="workflows/index.html">Workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="workflows/chaining.html">Workflow chaining</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflows/callbacks.html">Workflow callbacks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflows/index.html#writing-workflow-definitions">Writing workflow definitions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflows/index.html#batch-retries-vs-step-function-retries">Batch retries vs Step Function retries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="workflows/index.html#including-batch-tasks-in-workflows-pre-batch-post-batch-lambda-functions">Including batch tasks in workflows (pre-batch/post-batch Lambda functions)</a></li>
-</ul>
-</li>
-</ul>
+<div class="section" id="feeders">
+<h2>Feeders<a class="headerlink" href="#feeders" title="Permalink to this headline"></a></h2>
+<p>Conceptually, a feeder is anything that generates a <a class="reference internal" href="../payload.html"><span class="doc">Cirrus Process
+Payload</span></a> and queues it for processing. In practice this could be
+anything from a user hand-rolling JSON and pasting it into the AWS console, to
+an automated process that turns external events into process payloads and
+publishes them to the Cirrus process topic.</p>
+<p>Within a Cirrus project instance, however, the term <code class="docutils literal notranslate"><span class="pre">feeder</span></code> refers
+specifically to an AWS lambda function that takes arbirary input in, generates
+one or more Cirrus {rocess Payloads, and publishes them to the Cirrus process
+SNS topic.</p>
+<p>See the <a class="reference internal" href="feeders.html"><span class="doc">feeders documentation</span></a> for more details.</p>
+</div>
+<div class="section" id="tasks">
+<h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline"></a></h2>
+<p>Tasks represent the basic building block of Cirrus processing. Implemented as
+AWS lambda functions and/or AWS batch job defintions, tasks use a Cirrus
+Process Payload for both input and output, and are intended to be composed into
+a Cirrus workflow.</p>
+<p>In other other words, to implement custom processing routines for a pipeline,
+use a task. The best tasks are modular, simple, focused, and composable. Most
+projects end up with more custom tasks than other component types, so it pays
+to be familiar with the tasks ins and outs.</p>
+<p>See the <a class="reference internal" href="tasks.html"><span class="doc">tasks documentation</span></a> for in-depth usage information.</p>
+</div>
+<div class="section" id="workflows">
+<h2>Workflows<a class="headerlink" href="#workflows" title="Permalink to this headline"></a></h2>
+<p>Cirrus workflows are the component that puts the “pipe” in “pipeline”.
+Workflows model a transformation of an input item or set of input items with a
+process definition into one or more output items via processing from one or
+more tasks.</p>
+<p>Cirrus also provides several mechanisms for modeling workflow dependecies.</p>
+<p>The <a class="reference internal" href="../statedb.html"><span class="doc">state database</span></a> tracks the state of items processed at
+the workflow level.</p>
+<p>Refer to the <a class="reference internal" href="workflows/index.html"><span class="doc">workflows documentation</span></a> to find more detailed
+information regarding workflows.</p>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">function</span></code> component type is mainly used by the Cirrus built-ins required
+to implement the core Cirrus functionality. Examples include the <code class="docutils literal notranslate"><span class="pre">process</span></code>
+lambda function, which processes all incoming Cirrus Process Payloads and
+dispatches them to their specified workflows, or the <code class="docutils literal notranslate"><span class="pre">update-state</span></code> lambda
+function that updates the <a class="reference internal" href="../statedb.html"><span class="doc">state database</span></a> on workflow
+completion events.</p>
+<p>In typical use, most Cirrus projects will not require any additional
+function-type components. However, they can be occasionally be useful for
+lambda utility functions required to manage a given deployment.</p>
+<p>Further details regarding functions are available in the <a class="reference internal" href="functions.html"><span class="doc">functions
+documentation</span></a>.</p>
 </div>
 </div>
 
@@ -126,7 +144,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../operation.html" class="btn btn-neutral float-left" title="Basic Operation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="feeders.html" class="btn btn-neutral float-right" title="Feeders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../cloudformation.html" class="btn btn-neutral float-right" title="Cloudformation Support" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
