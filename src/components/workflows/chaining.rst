@@ -3,15 +3,15 @@ Workflow chaining
 
 Workflow chaining is a mechanism to allow multiple workflow executions to be
 chained together in a declarative fashion, such that the output of one becomes
-the inpust of the next. Chaining is implemented as an extention to the Cirrus
+the inputs of the next. Chaining is implemented as an extension to the Cirrus
 Process Payload format via support for an array of process definitions under the
 payload ``process`` key, where each element in that ``process`` array represents
 a link in the chain. The payload for the simple case of two chained workflows
 would have a ``process`` array something like this::
 
     process = [
-        { <workflow 1 defintion> },
-        { <workflow 2 defintion> }
+        { <workflow 1 definition> },
+        { <workflow 2 definition> }
     ]
 
 This example models a simple chain:
@@ -35,8 +35,8 @@ branching within the chain. For example, the following would branch into two
 separate workflow executions after the end of ``workflow 1``::
 
     process = [
-        { <workflow 1 defintion> },
-        [{ <workflow 2a defintion> }, { <workflow 2b defintion> }],
+        { <workflow 1 definition> },
+        [{ <workflow 2a definition> }, { <workflow 2b definition> }],
         { <workflow 3 definition> }
     ]
 
@@ -67,14 +67,14 @@ Filtering output items
 In cases where a successive workflow in a chain does not need all items produced
 by an multi-output-item proceeding workflow, chaining supports an output item
 filter via a `JSONPath`_ filter expression. To set such a filter, specify it in
-the successive workflow's process defintion using the `chain_filter` key. For
+the successive workflow's process definition using the `chain_filter` key. For
 example, if we only wanted items with an ``id`` starting with ``SWE`` that had a
 ``confidence`` property greater than 80, we could do something like this::
 
     process = [
-        { <workflow 1 defintion> },
+        { <workflow 1 definition> },
         {
-            <workflow 2 defintion>,
+            <workflow 2 definition>,
             "chain_filter": "@.id =~ 'SWE*' & @.properties.confidence > 80"
         }
     ]

@@ -8,9 +8,9 @@ Cirrus is a `STAC`_-based geospatial processing pipeline built using a serverles
 and scalable architecture. Cirrus can scale from tiny workloads of tens of items
 to massive workloads of millions of items in both a cost-efficient and
 performance-efficient manner, regardless if your pipeline processing takes
-seconrds, hours, or longer.
+seconds, hours, or longer.
 
-Cirrus is made up of `cirrus-geo`_, a cli-based project mangement and deploy tool, as
+Cirrus is made up of `cirrus-geo`_, a cli-based project management and deploy tool, as
 well as `cirrus-lib`_, a Python library providing a number of useful
 abstractions solving common needs for users writing their own Cirrus components.
 
@@ -30,14 +30,14 @@ STAC-based workflows
 ^^^^^^^^^^^^^^^^^^^^
 
 A key principal of Cirrus is the use of the `STAC`_ metadata specification as a
-central tennent of the :doc:`Cirrus Process Payload <payload>` format. In this
+central tenant of the :doc:`Cirrus Process Payload <payload>` format. In this
 way Cirrus encourages a highly-interoperable, metadata-first focus for both
 pipeline operators and end-users alike.
 
-Cirrus pipelines are, ideally, STAC-in and STAC-out, ensuring compatability with
-the full range of tooling and services avaialble in the STAC ecosystem. Though
+Cirrus pipelines are, ideally, STAC-in and STAC-out, ensuring compatibility with
+the full range of tooling and services available in the STAC ecosystem. Though
 opinionated in this respect, Cirrus remains flexible to accommodate varied
-use-cases and data sources, such that input format requiremens can be relaxed as
+use-cases and data sources, such that input format requirements can be relaxed as
 needed for a given workflow.
 
 
@@ -51,7 +51,7 @@ Cirrus is organized into reusable blocks called :doc:`Components
   Cirrus Process Payload, which is enqueue for processing
 * :doc:`Tasks <components/tasks>`: the basic unit of work in a Workflow, uses a
   Cirrus Process Payload for both input and output
-* :doc:`Worflows <components/workflows/index>`: a set of Tasks implementing a
+* :doc:`Workflows <components/workflows/index>`: a set of Tasks implementing a
   processing pipeline to transform a given input into one or more output STAC
   items
 
@@ -68,7 +68,7 @@ diverse workloads.
 
 Cirrus supports scaling workflow execution capacity as-needed without requiring
 expensive capacity reservations to support peak demands. This scaling can
-accommadate anything from highly intermittent one-off executions to massively
+accommodate anything from highly intermittent one-off executions to massively
 parallel processing across hundreds of thousands of simultaneous workflow
 executions (or more).
 
@@ -103,11 +103,11 @@ scalable architecture, including:
 * Batch: supports longer runtimes and/or custom resource requirements for
   feeders and tasks
 * SNS: messages to multiple subscribers
-* SQS: message queueing for reliability
+* SQS: message queuing for reliability
 * DynamoDB: State-tracking database
 * Step Functions: multi-step functions underlying workflows
 * ECR: image hosting for batch and lambda containers
-* IAM: funciton roles and associated permissions/access policies
+* IAM: function roles and associated permissions/access policies
 * S3: persistent storage for input payloads and generated items and their assets
 * CloudFormation: infrastructure-as-code and deployment automation
 * EventBridge: trigger processing on specific events, like workflow completion

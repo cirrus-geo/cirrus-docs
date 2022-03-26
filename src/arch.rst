@@ -25,7 +25,7 @@ notifies the listening ``update-state`` lambda that the execution has
 completed.  ``update-state`` updates the State DB record for the processed
 payload in accordance with the final workflow state (success, failed, aborted,
 or invalid), and triggers any necessary follow-up actions. For example, failed
-or invalid executions can trigger notfications to the Failure/Invalid SNS
+or invalid executions can trigger notifications to the Failure/Invalid SNS
 topic(s), and successful payloads using :doc:`workflow chaining
 <components/workflows/chaining>` can be re-enqueued for the next stage of the
 processing chain.
@@ -46,7 +46,7 @@ computationally-intensive manipulation of the input item data assets, and a
 create preview task then generates a new preview image asset. The workflow ends
 with a publish task step, which pushes the final generated item to S3 for
 persistence and the Cirrus publish SNS topic for and subscribed downstream
-consumers of this Workflows's items.
+consumers of this Workflow's items.
 
 In the event of any task failure, the failure step in the step function ensures
 that the step function execution will end in a ``FAILED`` state. If all steps

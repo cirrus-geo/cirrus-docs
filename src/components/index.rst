@@ -11,8 +11,8 @@ an automated process that turns external events into process payloads and
 publishes them to the Cirrus process topic.
 
 Within a Cirrus project instance, however, the term ``feeder`` refers
-specifically to an AWS lambda function that takes arbirary input in, generates
-one or more Cirrus {rocess Payloads, and publishes them to the Cirrus process
+specifically to an AWS lambda function that takes arbitrary input in, generates
+one or more Cirrus Process Payloads, and publishes them to the Cirrus process
 SNS topic.
 
 See the :doc:`feeders documentation <feeders>` for more details.
@@ -22,7 +22,7 @@ Tasks
 -----
 
 Tasks represent the basic building block of Cirrus processing. Implemented as
-AWS lambda functions and/or AWS batch job defintions, tasks use a Cirrus
+AWS lambda functions and/or AWS batch job definitions, tasks use a Cirrus
 Process Payload for both input and output, and are intended to be composed into
 a Cirrus workflow.
 
@@ -42,7 +42,7 @@ Workflows model a transformation of an input item or set of input items with a
 process definition into one or more output items via processing from one or
 more tasks.
 
-Cirrus also provides several mechanisms for modeling workflow dependecies.
+Cirrus also provides several mechanisms for modeling workflow dependencies.
 
 The :doc:`state database </statedb>` tracks the state of items processed at
 the workflow level.
