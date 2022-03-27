@@ -18,7 +18,9 @@
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Workflow callbacks" href="callbacks.html" />
+    <link rel="prev" title="Batch tasks in workflows" href="batch.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,13 +39,29 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Getting started with Cirrus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../arch.html">Cirrus architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../payload.html">Cirrus Process Payload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../config-deploy.html">Configuration and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../operation.html">Basic Operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../index.html">Cirrus Components</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Cirrus Components</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../lambdas.html">Lambda-based components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../feeders.html">Feeders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tasks.html">Tasks</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Workflows</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="definitions.html">Writing workflow definitions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="batch.html">Batch tasks in workflows</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Workflow chaining</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#filtering-output-items">Filtering output items</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="callbacks.html">Workflow callbacks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../functions.html">Functions</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../../cloudformation.html">Cloudformation Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../statedb.html">State Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../monitoring.html">Pipeline Monitoring</a></li>
@@ -66,6 +84,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Cirrus Components</a> &raquo;</li>
+          <li><a href="index.html">Workflows</a> &raquo;</li>
       <li>Workflow chaining</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/components/workflows/chaining.rst.txt" rel="nofollow"> View page source</a>
@@ -160,7 +180,10 @@ against the JSON <code class="docutils literal notranslate"><span class="pre">wo
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="batch.html" class="btn btn-neutral float-left" title="Batch tasks in workflows" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="callbacks.html" class="btn btn-neutral float-right" title="Workflow callbacks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

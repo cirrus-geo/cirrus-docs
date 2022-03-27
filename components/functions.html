@@ -18,7 +18,9 @@
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Cloudformation Support" href="../cloudformation.html" />
+    <link rel="prev" title="Workflow callbacks" href="workflows/callbacks.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,13 +39,20 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../intro.html">Getting started with Cirrus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../arch.html">Cirrus architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../payload.html">Cirrus Process Payload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../config-deploy.html">Configuration and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../operation.html">Basic Operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Cirrus Components</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Cirrus Components</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="lambdas.html">Lambda-based components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feeders.html">Feeders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tasks.html">Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflows/index.html">Workflows</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Functions</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../cloudformation.html">Cloudformation Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../statedb.html">State Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../monitoring.html">Pipeline Monitoring</a></li>
@@ -66,6 +75,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Cirrus Components</a> &raquo;</li>
       <li>Functions</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/components/functions.rst.txt" rel="nofollow"> View page source</a>
@@ -78,12 +88,27 @@
              
   <div class="section" id="functions">
 <h1>Functions<a class="headerlink" href="#functions" title="Permalink to this headline"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">function</span></code> component type is mainly used by the Cirrus built-ins required
+to implement the core Cirrus functionality. Examples include the <code class="docutils literal notranslate"><span class="pre">process</span></code>
+lambda function, which processes all incoming Cirrus Process Payloads and
+dispatches them to their specified workflows, or the <code class="docutils literal notranslate"><span class="pre">update-state</span></code> lambda
+function that updates the <a class="reference internal" href="../statedb.html"><span class="doc">state database</span></a> on workflow
+completion events.</p>
+<p>In typical use, most Cirrus projects will not require any additional
+function-type components. However, they can be occasionally be useful for
+lambda utility functions required to manage a given deployment.</p>
+<p>As a component with a Lambda base, the <a class="reference internal" href="lambdas.html"><span class="doc">Lambda-based components</span></a>
+documentation contains relevant information for this and other Lambda
+components.</p>
 </div>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="workflows/callbacks.html" class="btn btn-neutral float-left" title="Workflow callbacks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../cloudformation.html" class="btn btn-neutral float-right" title="Cloudformation Support" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

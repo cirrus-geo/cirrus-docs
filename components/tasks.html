@@ -18,7 +18,9 @@
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Workflows" href="workflows/index.html" />
+    <link rel="prev" title="Feeders" href="feeders.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,13 +39,42 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../intro.html">Getting started with Cirrus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../arch.html">Cirrus architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../payload.html">Cirrus Process Payload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../config-deploy.html">Configuration and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../operation.html">Basic Operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Cirrus Components</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Cirrus Components</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="lambdas.html">Lambda-based components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feeders.html">Feeders</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#anatomy-of-a-task">Anatomy of a task</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lambda-only-tasks">Lambda-only tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#batch-only-tasks">Batch-only tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#lambda-vs-batch">Lambda vs Batch</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#when-to-chose-lambda">When to chose Lambda</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#when-to-chose-batch">When to chose Batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#or-maybe-both">Or maybe both?</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-a-new-task">Creating a new task</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#lambda-only">Lambda-only</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#batch-only">Batch-only</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lambda-and-batch">Lambda and Batch</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#compute-environments">Compute Environments</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#task-parameters">Task parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-tasks-locally">Running tasks locally</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="workflows/index.html">Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html">Functions</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../cloudformation.html">Cloudformation Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../statedb.html">State Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../monitoring.html">Pipeline Monitoring</a></li>
@@ -66,6 +97,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Cirrus Components</a> &raquo;</li>
       <li>Tasks</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/components/tasks.rst.txt" rel="nofollow"> View page source</a>
@@ -86,6 +118,10 @@ output formatted as a <a class="reference internal" href="../payload.html"><span
 processing, a task can make any requisite modifications to its input payload
 and/or derive any output assets, pushing them to the canonical storage location
 in S3.</p>
+<p>In other other words, to implement custom processing routines for a pipeline,
+use a task. The best tasks are modular, simple, focused, and composable. Most
+projects end up with more custom tasks than other component types, so it pays
+to be familiar with the tasks ins and outs.</p>
 <p>Tasks can make use of AWS Lambda and/or AWS Batch for execution. Lambda tasks
 are simpler to manage and quicker to start up, but the Lambda runtime
 constraints can be prohibitive or untenable for some task workloads. In those
@@ -212,7 +248,10 @@ solely to make it easier to keep task code inside the Cirrus project.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="feeders.html" class="btn btn-neutral float-left" title="Feeders" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="workflows/index.html" class="btn btn-neutral float-right" title="Workflows" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

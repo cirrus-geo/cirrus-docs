@@ -18,7 +18,9 @@
         <script>mermaid.initialize({startOnLoad:true});</script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tasks" href="tasks.html" />
+    <link rel="prev" title="Lambda-based components" href="lambdas.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,13 +39,29 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../intro.html">Getting started with Cirrus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../arch.html">Cirrus architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../payload.html">Cirrus Process Payload</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../config-deploy.html">Configuration and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../operation.html">Basic Operation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Cirrus Components</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Cirrus Components</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="lambdas.html">Lambda-based components</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Feeders</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lambda-batch-local">Lambda, Batch, Local?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anatomy-of-a-feeder">Anatomy of a Feeder</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#process-definition">Process definition</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-new-feeder">Creating new feeder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spawning-batch-feeders-with-a-lambda-feeder">Spawning Batch feeders with a Lambda feeder</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tasks.html">Tasks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="workflows/index.html">Workflows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="functions.html">Functions</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../cloudformation.html">Cloudformation Support</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../statedb.html">State Database</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../monitoring.html">Pipeline Monitoring</a></li>
@@ -66,6 +84,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Cirrus Components</a> &raquo;</li>
       <li>Feeders</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../_sources/components/feeders.rst.txt" rel="nofollow"> View page source</a>
@@ -78,6 +97,18 @@
              
   <div class="section" id="feeders">
 <h1>Feeders<a class="headerlink" href="#feeders" title="Permalink to this headline"></a></h1>
+<p>Conceptually, a feeder is anything that generates a <a class="reference internal" href="../payload.html"><span class="doc">Cirrus Process
+Payload</span></a> and queues it for processing. In practice this could be
+anything from a user hand-rolling JSON and pasting it into the AWS console, to
+an automated process that turns external events into process payloads and
+publishes them to the Cirrus process topic.</p>
+<p>Within a Cirrus project instance, however, the term <code class="docutils literal notranslate"><span class="pre">feeder</span></code> refers
+specifically to an AWS Lambda function that takes arbitrary input in, generates
+one or more Cirrus Process Payloads, and publishes them to the Cirrus process
+SNS topic.</p>
+<p>As a component with a Lambda base, the <a class="reference internal" href="lambdas.html"><span class="doc">Lambda-based components</span></a>
+documentation contains relevant information for this and other Lambda
+components.</p>
 <div class="section" id="lambda-batch-local">
 <h2>Lambda, Batch, Local?<a class="headerlink" href="#lambda-batch-local" title="Permalink to this headline"></a></h2>
 </div>
@@ -98,7 +129,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lambdas.html" class="btn btn-neutral float-left" title="Lambda-based components" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tasks.html" class="btn btn-neutral float-right" title="Tasks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

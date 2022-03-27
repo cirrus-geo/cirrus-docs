@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Workflows &mdash; Cirrus  documentation</title>
+  <title>Batch tasks in workflows &mdash; Cirrus  documentation</title>
       <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,8 +19,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Writing workflow definitions" href="definitions.html" />
-    <link rel="prev" title="Tasks" href="../tasks.html" /> 
+    <link rel="next" title="Workflow chaining" href="chaining.html" />
+    <link rel="prev" title="Writing workflow definitions" href="definitions.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -49,9 +49,14 @@
 <li class="toctree-l2"><a class="reference internal" href="../lambdas.html">Lambda-based components</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../feeders.html">Feeders</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tasks.html">Tasks</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Workflows</a><ul>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Workflows</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="definitions.html">Writing workflow definitions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="batch.html">Batch tasks in workflows</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Batch tasks in workflows</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pre-batch-and-post-batch"><code class="docutils literal notranslate"><span class="pre">pre-batch</span></code> and <code class="docutils literal notranslate"><span class="pre">post-batch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-a-parallel-block">Using a <code class="docutils literal notranslate"><span class="pre">parallel</span></code> block</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#batch-retries-vs-step-function-retries">Batch retries vs Step Function retries</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="chaining.html">Workflow chaining</a></li>
 <li class="toctree-l3"><a class="reference internal" href="callbacks.html">Workflow callbacks</a></li>
 </ul>
@@ -82,9 +87,10 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="../index.html">Cirrus Components</a> &raquo;</li>
-      <li>Workflows</li>
+          <li><a href="index.html">Workflows</a> &raquo;</li>
+      <li>Batch tasks in workflows</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../../_sources/components/workflows/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/components/workflows/batch.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -92,31 +98,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="workflows">
-<h1>Workflows<a class="headerlink" href="#workflows" title="Permalink to this headline"></a></h1>
-<p>Cirrus workflows are the component that puts the “pipe” in “pipeline”.
-Workflows model a transformation of an input item or set of input items with a
-process definition into one or more output items via processing from one or
-more tasks.</p>
-<p>Cirrus also provides several mechanisms for modeling workflow dependencies.</p>
-<p>The <a class="reference internal" href="../../statedb.html"><span class="doc">state database</span></a> tracks the state of items processed at
-the workflow level.</p>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Workflow topics:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="definitions.html">Writing workflow definitions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="batch.html">Batch tasks in workflows</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="batch.html#pre-batch-and-post-batch"><code class="docutils literal notranslate"><span class="pre">pre-batch</span></code> and <code class="docutils literal notranslate"><span class="pre">post-batch</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="batch.html#using-a-parallel-block">Using a <code class="docutils literal notranslate"><span class="pre">parallel</span></code> block</a></li>
-<li class="toctree-l2"><a class="reference internal" href="batch.html#batch-retries-vs-step-function-retries">Batch retries vs Step Function retries</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="chaining.html">Workflow chaining</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="chaining.html#filtering-output-items">Filtering output items</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="callbacks.html">Workflow callbacks</a></li>
-</ul>
+  <div class="section" id="batch-tasks-in-workflows">
+<h1>Batch tasks in workflows<a class="headerlink" href="#batch-tasks-in-workflows" title="Permalink to this headline"></a></h1>
+<div class="section" id="pre-batch-and-post-batch">
+<h2><code class="docutils literal notranslate"><span class="pre">pre-batch</span></code> and <code class="docutils literal notranslate"><span class="pre">post-batch</span></code><a class="headerlink" href="#pre-batch-and-post-batch" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="using-a-parallel-block">
+<h2>Using a <code class="docutils literal notranslate"><span class="pre">parallel</span></code> block<a class="headerlink" href="#using-a-parallel-block" title="Permalink to this headline"></a></h2>
+</div>
+<div class="section" id="batch-retries-vs-step-function-retries">
+<h2>Batch retries vs Step Function retries<a class="headerlink" href="#batch-retries-vs-step-function-retries" title="Permalink to this headline"></a></h2>
 </div>
 </div>
 
@@ -124,8 +115,8 @@ the workflow level.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../tasks.html" class="btn btn-neutral float-left" title="Tasks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="definitions.html" class="btn btn-neutral float-right" title="Writing workflow definitions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="definitions.html" class="btn btn-neutral float-left" title="Writing workflow definitions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="chaining.html" class="btn btn-neutral float-right" title="Workflow chaining" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

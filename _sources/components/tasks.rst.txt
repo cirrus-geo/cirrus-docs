@@ -11,6 +11,11 @@ processing, a task can make any requisite modifications to its input payload
 and/or derive any output assets, pushing them to the canonical storage location
 in S3.
 
+In other other words, to implement custom processing routines for a pipeline,
+use a task. The best tasks are modular, simple, focused, and composable. Most
+projects end up with more custom tasks than other component types, so it pays
+to be familiar with the tasks ins and outs.
+
 Tasks can make use of AWS Lambda and/or AWS Batch for execution. Lambda tasks
 are simpler to manage and quicker to start up, but the Lambda runtime
 constraints can be prohibitive or untenable for some task workloads. In those

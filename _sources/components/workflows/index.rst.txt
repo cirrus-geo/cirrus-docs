@@ -1,20 +1,22 @@
 Workflows
 =========
 
+Cirrus workflows are the component that puts the "pipe" in "pipeline".
+Workflows model a transformation of an input item or set of input items with a
+process definition into one or more output items via processing from one or
+more tasks.
+
+Cirrus also provides several mechanisms for modeling workflow dependencies.
+
+The :doc:`state database </statedb>` tracks the state of items processed at
+the workflow level.
+
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Workflow topics:
 
+   definitions
+   batch
    chaining
    callbacks
-
-
-Writing workflow definitions
-----------------------------
-
-Batch retries vs Step Function retries
---------------------------------------
-
-Including batch tasks in workflows (pre-batch/post-batch Lambda functions)
---------------------------------------------------------------------------
-
