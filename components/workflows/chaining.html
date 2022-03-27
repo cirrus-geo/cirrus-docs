@@ -80,14 +80,14 @@
 <h1>Workflow chaining<a class="headerlink" href="#workflow-chaining" title="Permalink to this headline"></a></h1>
 <p>Workflow chaining is a mechanism to allow multiple workflow executions to be
 chained together in a declarative fashion, such that the output of one becomes
-the inpust of the next. Chaining is implemented as an extention to the Cirrus
+the inputs of the next. Chaining is implemented as an extension to the Cirrus
 Process Payload format via support for an array of process definitions under the
 payload <code class="docutils literal notranslate"><span class="pre">process</span></code> key, where each element in that <code class="docutils literal notranslate"><span class="pre">process</span></code> array represents
 a link in the chain. The payload for the simple case of two chained workflows
 would have a <code class="docutils literal notranslate"><span class="pre">process</span></code> array something like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">process</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">1</span> <span class="n">defintion</span><span class="o">&gt;</span> <span class="p">},</span>
-    <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">2</span> <span class="n">defintion</span><span class="o">&gt;</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">1</span> <span class="n">definition</span><span class="o">&gt;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">2</span> <span class="n">definition</span><span class="o">&gt;</span> <span class="p">}</span>
 <span class="p">]</span>
 </pre></div>
 </div>
@@ -108,8 +108,8 @@ the <code class="docutils literal notranslate"><span class="pre">workflow</span>
 branching within the chain. For example, the following would branch into two
 separate workflow executions after the end of <code class="docutils literal notranslate"><span class="pre">workflow</span> <span class="pre">1</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">process</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">1</span> <span class="n">defintion</span><span class="o">&gt;</span> <span class="p">},</span>
-    <span class="p">[{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">2</span><span class="n">a</span> <span class="n">defintion</span><span class="o">&gt;</span> <span class="p">},</span> <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">2</span><span class="n">b</span> <span class="n">defintion</span><span class="o">&gt;</span> <span class="p">}],</span>
+    <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">1</span> <span class="n">definition</span><span class="o">&gt;</span> <span class="p">},</span>
+    <span class="p">[{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">2</span><span class="n">a</span> <span class="n">definition</span><span class="o">&gt;</span> <span class="p">},</span> <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">2</span><span class="n">b</span> <span class="n">definition</span><span class="o">&gt;</span> <span class="p">}],</span>
     <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">3</span> <span class="n">definition</span><span class="o">&gt;</span> <span class="p">}</span>
 <span class="p">]</span>
 </pre></div>
@@ -135,13 +135,13 @@ to consolidate the outputs of multiple workflows together.</p>
 <p>In cases where a successive workflow in a chain does not need all items produced
 by an multi-output-item proceeding workflow, chaining supports an output item
 filter via a <a class="reference external" href="https://goessner.net/articles/JsonPath/index.html">JSONPath</a> filter expression. To set such a filter, specify it in
-the successive workflow’s process defintion using the <cite>chain_filter</cite> key. For
+the successive workflow’s process definition using the <cite>chain_filter</cite> key. For
 example, if we only wanted items with an <code class="docutils literal notranslate"><span class="pre">id</span></code> starting with <code class="docutils literal notranslate"><span class="pre">SWE</span></code> that had a
 <code class="docutils literal notranslate"><span class="pre">confidence</span></code> property greater than 80, we could do something like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">process</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">1</span> <span class="n">defintion</span><span class="o">&gt;</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">1</span> <span class="n">definition</span><span class="o">&gt;</span> <span class="p">},</span>
     <span class="p">{</span>
-        <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">2</span> <span class="n">defintion</span><span class="o">&gt;</span><span class="p">,</span>
+        <span class="o">&lt;</span><span class="n">workflow</span> <span class="mi">2</span> <span class="n">definition</span><span class="o">&gt;</span><span class="p">,</span>
         <span class="s2">&quot;chain_filter&quot;</span><span class="p">:</span> <span class="s2">&quot;@.id =~ &#39;SWE*&#39; &amp; @.properties.confidence &gt; 80&quot;</span>
     <span class="p">}</span>
 <span class="p">]</span>

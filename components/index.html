@@ -86,6 +86,36 @@
              
   <div class="section" id="cirrus-components">
 <h1>Cirrus Components<a class="headerlink" href="#cirrus-components" title="Permalink to this headline"></a></h1>
+<p>Cirrus features several component types, which each represent a specific role
+within the Cirrus architecture.</p>
+<p>A single component is made up of a collection of files, minimally a
+<code class="docutils literal notranslate"><span class="pre">definition.yml</span></code> file containing the component configuration, and a
+<code class="docutils literal notranslate"><span class="pre">README.md</span></code> file outlining the component usage and any other necessary
+documentation for the component. Additional required files vary per component
+type. All the files for a given component are stored in a single directory named for the component instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">component_name</span><span class="o">&gt;/</span>
+    <span class="n">definition</span><span class="o">.</span><span class="n">yml</span>
+    <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>Within a Cirrus project directory, components are organized in subdirectories
+named for their respective component types, like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">project_dir</span><span class="o">&gt;/</span>
+    <span class="n">feeders</span><span class="o">/</span>
+        <span class="n">feeder1</span><span class="o">/</span>
+        <span class="n">feeder2</span><span class="o">/</span>
+    <span class="n">functions</span><span class="o">/</span>
+    <span class="n">tasks</span><span class="o">/</span>
+        <span class="n">atask</span><span class="o">/</span>
+    <span class="n">workflows</span><span class="o">/</span>
+        <span class="n">aworkflow</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Each component types has in-depth documentation detailing any supported files
+and the <code class="docutils literal notranslate"><span class="pre">definition.yml</span></code> format. Some components share a common set of
+required files and configuration format, such as all <a class="reference internal" href="lambdas.html"><span class="doc">Lambda-based
+components</span></a>.</p>
 <div class="section" id="feeders">
 <h2>Feeders<a class="headerlink" href="#feeders" title="Permalink to this headline"></a></h2>
 <p>Conceptually, a feeder is anything that generates a <a class="reference internal" href="../payload.html"><span class="doc">Cirrus Process
@@ -94,21 +124,27 @@ anything from a user hand-rolling JSON and pasting it into the AWS console, to
 an automated process that turns external events into process payloads and
 publishes them to the Cirrus process topic.</p>
 <p>Within a Cirrus project instance, however, the term <code class="docutils literal notranslate"><span class="pre">feeder</span></code> refers
-specifically to an AWS lambda function that takes arbirary input in, generates
-one or more Cirrus {rocess Payloads, and publishes them to the Cirrus process
+specifically to an AWS Lambda function that takes arbitrary input in, generates
+one or more Cirrus Process Payloads, and publishes them to the Cirrus process
 SNS topic.</p>
-<p>See the <a class="reference internal" href="feeders.html"><span class="doc">feeders documentation</span></a> for more details.</p>
+<p>As a component with a Lambda base, the <a class="reference internal" href="lambdas.html"><span class="doc">Lambda-based components</span></a>
+documentation contains relevant information for this and other Lambda
+components.</p>
+<p>See the <a class="reference internal" href="feeders.html"><span class="doc">feeders documentation</span></a> for more details specific to
+feeders.</p>
 </div>
 <div class="section" id="tasks">
 <h2>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline"></a></h2>
 <p>Tasks represent the basic building block of Cirrus processing. Implemented as
-AWS lambda functions and/or AWS batch job defintions, tasks use a Cirrus
+AWS Lambda functions and/or AWS batch job definitions, tasks use a Cirrus
 Process Payload for both input and output, and are intended to be composed into
 a Cirrus workflow.</p>
 <p>In other other words, to implement custom processing routines for a pipeline,
 use a task. The best tasks are modular, simple, focused, and composable. Most
 projects end up with more custom tasks than other component types, so it pays
 to be familiar with the tasks ins and outs.</p>
+<p>For tasks supporting Lambda executions, the <a class="reference internal" href="lambdas.html"><span class="doc">Lambda-based components</span></a> documentation contains relevant information for this and other
+Lambda components.</p>
 <p>See the <a class="reference internal" href="tasks.html"><span class="doc">tasks documentation</span></a> for in-depth usage information.</p>
 </div>
 <div class="section" id="workflows">
@@ -117,7 +153,7 @@ to be familiar with the tasks ins and outs.</p>
 Workflows model a transformation of an input item or set of input items with a
 process definition into one or more output items via processing from one or
 more tasks.</p>
-<p>Cirrus also provides several mechanisms for modeling workflow dependecies.</p>
+<p>Cirrus also provides several mechanisms for modeling workflow dependencies.</p>
 <p>The <a class="reference internal" href="../statedb.html"><span class="doc">state database</span></a> tracks the state of items processed at
 the workflow level.</p>
 <p>Refer to the <a class="reference internal" href="workflows/index.html"><span class="doc">workflows documentation</span></a> to find more detailed
@@ -134,6 +170,9 @@ completion events.</p>
 <p>In typical use, most Cirrus projects will not require any additional
 function-type components. However, they can be occasionally be useful for
 lambda utility functions required to manage a given deployment.</p>
+<p>As a component with a Lambda base, the <a class="reference internal" href="lambdas.html"><span class="doc">Lambda-based components</span></a>
+documentation contains relevant information for this and other Lambda
+components.</p>
 <p>Further details regarding functions are available in the <a class="reference internal" href="functions.html"><span class="doc">functions
 documentation</span></a>.</p>
 </div>

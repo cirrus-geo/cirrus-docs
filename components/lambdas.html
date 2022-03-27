@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lambda-based components &mdash; Cirrus  documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Cirrus
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Getting started with Cirrus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../arch.html">Cirrus architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../payload.html">Cirrus Process Payload</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config-deploy.html">Configuration and Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operation.html">Basic Operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Cirrus Components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cloudformation.html">Cloudformation Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statedb.html">State Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../monitoring.html">Pipeline Monitoring</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Cirrus Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../best-practices.html">Cirrus best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../roadmap.html">Roadmap</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Cirrus</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Lambda-based components</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/components/lambdas.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="lambda-based-components">
+<h1>Lambda-based components<a class="headerlink" href="#lambda-based-components" title="Permalink to this headline"></a></h1>
+<p>Components that use Lambda (feeders, functions, and some tasks) share a common
+set of required files and <code class="docutils literal notranslate"><span class="pre">definition.yml</span></code> format.</p>
+<div class="section" id="required-files">
+<h2>Required files<a class="headerlink" href="#required-files" title="Permalink to this headline"></a></h2>
+<p>In addition to the <code class="docutils literal notranslate"><span class="pre">definition.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">README.md</span></code> files required by all
+components, Lambda-based components also require a <code class="docutils literal notranslate"><span class="pre">lambda_function.py</span></code> Python
+file implementing a <code class="docutils literal notranslate"><span class="pre">lambda_handler</span></code> function, which serves as the Lambda
+execution entry point. Like all components, these files are contained within a
+directory named for the component within its component type’s directory.</p>
+<p>For example, if we have a Lambda task component named <code class="docutils literal notranslate"><span class="pre">reproject</span></code>, we would
+end up with a directory structure that looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">project_dir</span><span class="o">&gt;/</span>
+    <span class="n">tasks</span><span class="o">/</span>
+        <span class="n">reproject</span><span class="o">/</span>
+            <span class="n">definition</span><span class="o">.</span><span class="n">yml</span>
+            <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+            <span class="n">lambda_function</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>The contents of a Lambda-based component’s directory–minus the
+<code class="docutils literal notranslate"><span class="pre">definition.yml</span></code> file–will be packaged into a Lambda deployment zip file and
+uploaded to AWS on project deploy. Any additional files added by the user will
+also be included in the Lambda zip.</p>
+</div>
+<div class="section" id="definition-yml">
+<h2><code class="docutils literal notranslate"><span class="pre">definition.yml</span></code><a class="headerlink" href="#definition-yml" title="Permalink to this headline"></a></h2>
+<div class="section" id="environment-variables">
+<h3>Environment variables<a class="headerlink" href="#environment-variables" title="Permalink to this headline"></a></h3>
+<p>Lambda tasks support the task definition’s top-level <code class="docutils literal notranslate"><span class="pre">environment</span></code>
+specification, which they inherit, along with any environment variables defined
+globally in the <code class="docutils literal notranslate"><span class="pre">cirrus.yml</span></code> file under the <code class="docutils literal notranslate"><span class="pre">provider.environment</span></code> key. In
+the case of conflicts, inheritence will perfer a value in the Lambda
+environment varaibles over one from the task, and one from the task varaibles
+over that from the globals.</p>
+</div>
+<div class="section" id="iam-permissions">
+<h3>IAM permissions<a class="headerlink" href="#iam-permissions" title="Permalink to this headline"></a></h3>
+</div>
+<div class="section" id="python-dependencies">
+<h3>Python dependencies<a class="headerlink" href="#python-dependencies" title="Permalink to this headline"></a></h3>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Element 84.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

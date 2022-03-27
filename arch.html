@@ -103,7 +103,7 @@ notifies the listening <code class="docutils literal notranslate"><span class="p
 completed.  <code class="docutils literal notranslate"><span class="pre">update-state</span></code> updates the State DB record for the processed
 payload in accordance with the final workflow state (success, failed, aborted,
 or invalid), and triggers any necessary follow-up actions. For example, failed
-or invalid executions can trigger notfications to the Failure/Invalid SNS
+or invalid executions can trigger notifications to the Failure/Invalid SNS
 topic(s), and successful payloads using <a class="reference internal" href="components/workflows/chaining.html"><span class="doc">workflow chaining</span></a> can be re-enqueued for the next stage of the
 processing chain.</p>
 </div>
@@ -119,7 +119,7 @@ computationally-intensive manipulation of the input item data assets, and a
 create preview task then generates a new preview image asset. The workflow ends
 with a publish task step, which pushes the final generated item to S3 for
 persistence and the Cirrus publish SNS topic for and subscribed downstream
-consumers of this Workflows’s items.</p>
+consumers of this Workflow’s items.</p>
 <p>In the event of any task failure, the failure step in the step function ensures
 that the step function execution will end in a <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state. If all steps
 complete successfully then the execution will end in a <code class="docutils literal notranslate"><span class="pre">SUCCEEDED</span></code> state.</p>

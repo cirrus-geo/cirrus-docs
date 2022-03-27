@@ -2,7 +2,7 @@ Cirrus best practices
 =====================
 
 Cirrus has a few guardrails, but generally aims to stay out of the way and
-retain as much flexibility as possible to ensure arbirary constraints cannot
+retain as much flexibility as possible to ensure arbitrary constraints cannot
 get in the way and prevent any legitimate use-cases. That said, following
 certain guidelines can help to ensure a Cirrus deployment remains easy to
 manage and administer, which is why we compiled this set of Cirrus best
@@ -53,7 +53,7 @@ Workflows should not produce different outputs from the same set of inputs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 See the :doc:`Cirrus Process Payload docs <payload>` for additional details on
-how Cirrus's idempotentcy check works. Generally speaking, cirrus will use the
+how Cirrus's idempotency check works. Generally speaking, cirrus will use the
 set of input items as a proxy for the outputs produced by a given workflow.
 Don't rely on workflow/task parameters to change the set outputs, as those
 settings are not referenced as part of the idempotency check.
@@ -76,4 +76,4 @@ generally dynamism in workflows is best avoided, for a few reasons:
 * Dynamic workflows can lead to needing to run the workflow multiple times to
   create different sets of outputs. See :ref:`above <one-output-set>`.
 * A single workflow path is easier to describe and name explicitly, leading to
-  be documentation and easier pipeline onboarding.
+  be documentation and easier pipeline on-boarding.
