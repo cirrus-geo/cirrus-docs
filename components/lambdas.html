@@ -229,6 +229,14 @@ level for consistency, as that is also preferred for tasks that use Batch (both
 to allow sharing the environment values between Batch and Lambda, where
 required, and because the Batch environment specification uses a different and
 more verbose format).</p>
+<p>If ever in doubt about the final environment variables/values (or the values of
+any other parameters) used in a Lambda definition, the <code class="docutils literal notranslate"><span class="pre">cirrus</span></code> cli provides
+a <code class="docutils literal notranslate"><span class="pre">show</span></code> command that runs the full configuration interpolation to generate
+the “complete” definition as it appears in the compiled configuration generated
+by the <code class="docutils literal notranslate"><span class="pre">build</span></code> command.  Run it like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>❯ cirrus show task &lt;TaskName&gt;
+</pre></div>
+</div>
 </div>
 <div class="section" id="iam-permissions">
 <h3>IAM permissions<a class="headerlink" href="#iam-permissions" title="Permalink to this headline"></a></h3>
