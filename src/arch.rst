@@ -34,7 +34,7 @@ processing chain.
 Workflow structure
 ------------------
 
-Workflows are composed of one or more :doc:`Tasks <components/tasks>`, which use
+Workflows are composed of one or more :doc:`Tasks <components/tasks/index>`, which use
 an input Cirrus Process Payload to define input metadata/assets for the Task
 processing. A workflow could look something like this:
 
