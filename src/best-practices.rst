@@ -21,17 +21,6 @@ Before reaching for a complicated knob or obscure feature, make sure it is
 truly required.
 
 
-Task guidelines
----------------
-
-Use the smallest viable instance size
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-For batch tacks, use the smallest instance possible. Not only for cost reasons,
-but because larger instances can take significantly longer to become available
-and start up.
-
-
 Workflows guidelines
 --------------------
 
