@@ -39,6 +39,6 @@ components <lambdas>`.
 
    lambdas
    feeders
-   tasks
+   tasks/index
    workflows/index
    functions

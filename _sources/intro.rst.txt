@@ -49,7 +49,7 @@ Cirrus is organized into reusable blocks called :doc:`Components
 
 * :doc:`Feeders <components/feeders>`: take arbitrary input in and create a
   Cirrus Process Payload, which is enqueue for processing
-* :doc:`Tasks <components/tasks>`: the basic unit of work in a Workflow, uses a
+* :doc:`Tasks <components/tasks/index>`: the basic unit of work in a Workflow, uses a
   Cirrus Process Payload for both input and output
 * :doc:`Workflows <components/workflows/index>`: a set of Tasks implementing a
   processing pipeline to transform a given input into one or more output STAC
@@ -143,6 +143,6 @@ Algorithm Developers
 *Those writing code to be run as Cirrus tasks within workflows.*
 
 * :doc:`Components <components/index>`
-* :doc:`Tasks <components/tasks>`
+* :doc:`Tasks <components/tasks/index>`
 * :doc:`Cirrus Process Payload format <payload>`
 * ``cirrus-lib`` documentation
