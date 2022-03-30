@@ -147,6 +147,14 @@ to allow sharing the environment values between Batch and Lambda, where
 required, and because the Batch environment specification uses a different and
 more verbose format).
 
+If ever in doubt about the final environment variables/values (or the values of
+any other parameters) used in a Lambda definition, the ``cirrus`` cli provides
+a ``show`` command that runs the full configuration interpolation to generate
+the "complete" definition as it appears in the compiled configuration generated
+by the ``build`` command.  Run it like this::
+
+    ❯ cirrus show task <TaskName>
+
 IAM permissions
 ***************
 
