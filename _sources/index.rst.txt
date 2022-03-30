@@ -21,7 +21,6 @@ Welcome to Cirrus's documentation!
    monitoring
    examples/index
    best-practices
-   roadmap
 
 
 Indices and tables

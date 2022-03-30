@@ -58,7 +58,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#lambda-vs-batch">Lambda vs Batch</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#when-to-chose-lambda">When to chose Lambda</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#when-to-chose-batch">When to chose Batch</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#or-maybe-both">Or maybe both?</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#creating-a-new-task">Creating a new task</a><ul>
@@ -80,7 +79,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../../monitoring.html">Pipeline Monitoring</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Cirrus Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../best-practices.html">Cirrus best practices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../roadmap.html">Roadmap</a></li>
 </ul>
 
         </div>
@@ -112,8 +110,6 @@
 <h1>Tasks<a class="headerlink" href="#tasks" title="Permalink to this headline"></a></h1>
 <div class="toctree-wrapper compound">
 </div>
-<div class="section" id="anatomy-of-a-task">
-<h2>Anatomy of a task<a class="headerlink" href="#anatomy-of-a-task" title="Permalink to this headline"></a></h2>
 <p>Tasks in Cirrus implement a unit of processing, to be composed together into a
 <a class="reference internal" href="../workflows/index.html"><span class="doc">Workflow</span></a>. Tasks are expected to support both input and
 output formatted as a <a class="reference internal" href="../../payload.html"><span class="doc">Cirrus Process Payload</span></a>. As part of its
@@ -132,6 +128,33 @@ specialized instance types.</p>
 <p>In a Cirrus project, tasks are stored inside the <code class="docutils literal notranslate"><span class="pre">tasks/</span></code> directory, each in a
 subdirectory named for the task. Each task requires a <code class="docutils literal notranslate"><span class="pre">definition.yml</span></code> file with
 the task’s configuration, and a <code class="docutils literal notranslate"><span class="pre">README.md</span></code> file documenting the task’s usage.</p>
+<div class="section" id="anatomy-of-a-task">
+<h2>Anatomy of a task<a class="headerlink" href="#anatomy-of-a-task" title="Permalink to this headline"></a></h2>
+<p>Generally speaking, every task should do a few key things:</p>
+<ul class="simple">
+<li><p>Take an input Cirrus Process Payload</p>
+<ul>
+<li><p>In the case of Batch tasks and/or large payloads, tasks should support
+receiving a <code class="docutils literal notranslate"><span class="pre">url</span></code> input parameter pointing to a payload object in S3</p></li>
+</ul>
+</li>
+<li><p>Instantiate a <code class="docutils literal notranslate"><span class="pre">cirrus.lib.ProcessPayload</span></code> instance from the input payload
+JSON</p></li>
+<li><p>Download all required assets from the items in the input payload</p></li>
+<li><p>Perform any asset metadata manipulation and/or derived product processing</p></li>
+<li><p>Update/replace payload items based on task outputs</p></li>
+<li><p>Upload any output assets to S3 for persistence</p></li>
+<li><p>Return the output Cirrus Process Payload</p>
+<ul>
+<li><p>In the case of Batch tasks and/or large payloads, tasks should support
+uploading the output payload to S3 and returning an output <code class="docutils literal notranslate"><span class="pre">url</span></code> parameter
+pointing to that payload object in S3</p></li>
+</ul>
+</li>
+</ul>
+<p>Certain tasks may deviate from this pattern, but the vast majoity of tasks will
+follow this flow. <code class="docutils literal notranslate"><span class="pre">cirrus-lib</span></code> provides convenince classes/methods to help with
+these common needs.</p>
 <div class="section" id="lambda-tasks">
 <h3>Lambda tasks<a class="headerlink" href="#lambda-tasks" title="Permalink to this headline"></a></h3>
 <p>Lambda tasks use the <a class="reference external" href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html">AWS Lambda</a> runtime to power executions. Lambda has the
@@ -176,26 +199,6 @@ queue, compute environment, and any other requried resources.</p>
 <li><p>need more than 10GB disk</p></li>
 <li><p>need special hardware resources (e.g., GPU)</p></li>
 </ul>
-</div>
-<div class="section" id="or-maybe-both">
-<h3>Or maybe both?<a class="headerlink" href="#or-maybe-both" title="Permalink to this headline"></a></h3>
-<p>Sometimes both Lambda and Batch can fit the task requirements, depending on
-input. Other times, avoiding the overhead of managing/deploying a Batch
-container image makes Lambda attractive, but runtime constraints like max
-execution time mean that only Batch is viable.</p>
-<p>In each of these cases, one can specify a task as <em>both</em> Lambda and Batch,
-using the Cirrus Batch Lambda runner container to run the packaged Lambda code.
-Doing this allows the user to choose which execution mechanism is most
-appropriate in a given context. This could be parameterized in a workflow based
-on the input (like a <code class="docutils literal notranslate"><span class="pre">batch</span></code> flag in the task parameters), or on logic in an
-separate input inspection Lambda. Some workflows could always run the Lambda
-version of a task, and others the batch version. Or maybe the Batch version is
-the only ever actually used, taking advantage of the Lambda packaging support
-solely to make it easier to keep task code inside the Cirrus project.</p>
-<div class="section" id="using-the-batch-lambda-runner">
-<h4>Using the Batch Lambda runner<a class="headerlink" href="#using-the-batch-lambda-runner" title="Permalink to this headline"></a></h4>
-<p>See the <a class="reference external" href="https://github.com/cirrus-geo/cirrus-task-images">cirrus-task-image</a> repo for more information.</p>
-</div>
 </div>
 </div>
 <div class="section" id="creating-a-new-task">

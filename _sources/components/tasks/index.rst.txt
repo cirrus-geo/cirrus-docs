@@ -8,9 +8,6 @@ Tasks
    batch
 
 
-Anatomy of a task
------------------
-
 Tasks in Cirrus implement a unit of processing, to be composed together into a
 :doc:`Workflow <../workflows/index>`. Tasks are expected to support both input and
 output formatted as a :doc:`Cirrus Process Payload </payload>`. As part of its
@@ -32,6 +29,33 @@ specialized instance types.
 In a Cirrus project, tasks are stored inside the ``tasks/`` directory, each in a
 subdirectory named for the task. Each task requires a ``definition.yml`` file with
 the task's configuration, and a ``README.md`` file documenting the task's usage.
+
+
+Anatomy of a task
+-----------------
+
+Generally speaking, every task should do a few key things:
+
+* Take an input Cirrus Process Payload
+
+  * In the case of Batch tasks and/or large payloads, tasks should support
+    receiving a ``url`` input parameter pointing to a payload object in S3
+
+* Instantiate a ``cirrus.lib.ProcessPayload`` instance from the input payload
+  JSON
+* Download all required assets from the items in the input payload
+* Perform any asset metadata manipulation and/or derived product processing
+* Update/replace payload items based on task outputs
+* Upload any output assets to S3 for persistence
+* Return the output Cirrus Process Payload
+
+  * In the case of Batch tasks and/or large payloads, tasks should support
+    uploading the output payload to S3 and returning an output ``url`` parameter
+    pointing to that payload object in S3
+
+Certain tasks may deviate from this pattern, but the vast majoity of tasks will
+follow this flow. ``cirrus-lib`` provides convenince classes/methods to help with
+these common needs.
 
 
 Lambda tasks
@@ -100,32 +124,33 @@ When to chose Batch
 * need special hardware resources (e.g., GPU)
 
 
-Or maybe both?
-^^^^^^^^^^^^^^
+..
+    Omitting discussion of Batch Lambdas for the moment
 
-Sometimes both Lambda and Batch can fit the task requirements, depending on
-input. Other times, avoiding the overhead of managing/deploying a Batch
-container image makes Lambda attractive, but runtime constraints like max
-execution time mean that only Batch is viable.
+    Or maybe both?
+    ^^^^^^^^^^^^^^
 
-In each of these cases, one can specify a task as *both* Lambda and Batch,
-using the Cirrus Batch Lambda runner container to run the packaged Lambda code.
-Doing this allows the user to choose which execution mechanism is most
-appropriate in a given context. This could be parameterized in a workflow based
-on the input (like a ``batch`` flag in the task parameters), or on logic in an
-separate input inspection Lambda. Some workflows could always run the Lambda
-version of a task, and others the batch version. Or maybe the Batch version is
-the only ever actually used, taking advantage of the Lambda packaging support
-solely to make it easier to keep task code inside the Cirrus project.
+    Sometimes both Lambda and Batch can fit the task requirements, depending on
+    input. Other times, avoiding the overhead of managing/deploying a Batch
+    container image makes Lambda attractive, but runtime constraints like max
+    execution time mean that only Batch is viable.
 
-Using the Batch Lambda runner
-*****************************
+    In each of these cases, one can specify a task as *both* Lambda and Batch,
+    using the Cirrus Batch Lambda runner container to run the packaged Lambda code.
+    Doing this allows the user to choose which execution mechanism is most
+    appropriate in a given context. This could be parameterized in a workflow based
+    on the input (like a ``batch`` flag in the task parameters), or on logic in an
+    separate input inspection Lambda. Some workflows could always run the Lambda
+    version of a task, and others the batch version. Or maybe the Batch version is
+    the only ever actually used, taking advantage of the Lambda packaging support
+    solely to make it easier to keep task code inside the Cirrus project.
 
-.. TODO
+    Using the Batch Lambda runner
+    *****************************
 
-See the `cirrus-task-image`_ repo for more information.
+    See the `cirrus-task-image`_ repo for more information.
 
-.. _cirrus-task-image: https://github.com/cirrus-geo/cirrus-task-images
+    .. _cirrus-task-image: https://github.com/cirrus-geo/cirrus-task-images
 
 
 Creating a new task
@@ -194,8 +219,6 @@ markup applied.
 
 Running tasks locally
 ---------------------
-
-.. TODO
 
 We are working to standardize task code and ``cirrus`` cli tooling to provide
 an easy and consistent means to execute tasks locally. This feature is still
