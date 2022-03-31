@@ -31,6 +31,7 @@ extensions = [
     'myst_parser',
     'sphinxcontrib.mermaid',
     'sphinx_rtd_theme',
+    'sphinx.ext.autosectionlabel'
 ]
 
 source_suffix = {
