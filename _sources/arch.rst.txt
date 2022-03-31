@@ -53,8 +53,23 @@ that the step function execution will end in a ``FAILED`` state. If all steps
 complete successfully then the execution will end in a ``SUCCEEDED`` state.
 
 
-Definitions/Glossary - tasks, workflows, feeders
-------------------------------------------------
+Glossary
+--------
+
+**execution**: An individual run of a workflow on a payload
+
+**feeder**: A function that generates payload and adds them to the Cirrus process queue
+
+**payload**: A Cirrus Process Payload used as input to a workflow
+
+**publish**: Uploading output STAC Items to s3 and publishing the Items to the Cirrus Publish SNS topic
+
+**statedb**: A database used to track the state of executions
+
+**task**: A single function operating on a Cirrus Process Payload running on Lambda or Batch 
+
+**workflow**: An AWS Step Function consisting of 1 or more tasks
+
 
 Naming conventions
 ------------------

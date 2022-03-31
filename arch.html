@@ -44,7 +44,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Cirrus architecture</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#cirrus-overview">Cirrus overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#workflow-structure">Workflow structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#definitions-glossary-tasks-workflows-feeders">Definitions/Glossary - tasks, workflows, feeders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#glossary">Glossary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#naming-conventions">Naming conventions</a></li>
 </ul>
 </li>
@@ -123,8 +123,15 @@ consumers of this Workflow’s items.</p>
 that the step function execution will end in a <code class="docutils literal notranslate"><span class="pre">FAILED</span></code> state. If all steps
 complete successfully then the execution will end in a <code class="docutils literal notranslate"><span class="pre">SUCCEEDED</span></code> state.</p>
 </div>
-<div class="section" id="definitions-glossary-tasks-workflows-feeders">
-<h2>Definitions/Glossary - tasks, workflows, feeders<a class="headerlink" href="#definitions-glossary-tasks-workflows-feeders" title="Permalink to this headline"></a></h2>
+<div class="section" id="glossary">
+<h2>Glossary<a class="headerlink" href="#glossary" title="Permalink to this headline"></a></h2>
+<p><strong>execution</strong>: An individual run of a workflow on a payload</p>
+<p><strong>feeder</strong>: A function that generates payload and adds them to the Cirrus process queue</p>
+<p><strong>payload</strong>: A Cirrus Process Payload used as input to a workflow</p>
+<p><strong>publish</strong>: Uploading output STAC Items to s3 and publishing the Items to the Cirrus Publish SNS topic</p>
+<p><strong>statedb</strong>: A database used to track the state of executions</p>
+<p><strong>task</strong>: A single function operating on a Cirrus Process Payload running on Lambda or Batch</p>
+<p><strong>workflow</strong>: An AWS Step Function consisting of 1 or more tasks</p>
 </div>
 <div class="section" id="naming-conventions">
 <h2>Naming conventions<a class="headerlink" href="#naming-conventions" title="Permalink to this headline"></a></h2>
