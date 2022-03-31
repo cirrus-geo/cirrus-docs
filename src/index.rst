@@ -20,7 +20,6 @@ Welcome to Cirrus's documentation!
    statedb
    monitoring
    examples/index
-   best-practices
 
 
 Indices and tables
