@@ -1,2 +1,13 @@
-gh-pages
-_build
+__pycache__/
+.pytest_cache/
+node_modules/
+.idea/
+.DS_Store
+.serverless
+.dist/
+dist/
+/build/
+.env
+packages/
+output/
+*.egg-info/

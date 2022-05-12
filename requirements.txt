@@ -1,3 +1,4 @@
+cirrus-geo
 sphinx==4.4.0
 sphinx_rtd_theme==1.0.0
 myst_parser==0.17.0
