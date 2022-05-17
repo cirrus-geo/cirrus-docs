@@ -2,7 +2,6 @@ from importlib import import_module
 from pathlib import Path
 from pkg_resources import iter_entry_points
 
-from cirrus.docs import src
 from cirrus.core.project import Project
 from cirrus.core.utils import misc
 
@@ -53,7 +52,7 @@ def make_section(title: str, subsections: [str], heading: int) -> str:
     return ('\n' * 3).join([f'{title}\n{heading_char * len(title)}'] + subsections)
 
 
-def compile_plugins(_src: Path):
+def compile_plugin_docs(_src: Path):
     plugin_indices = []
     plugins = utils.make_dir(_src, 'plugins')
     for plugin in iter_entry_points('cirrus.plugins'):
@@ -123,17 +122,32 @@ def compile_component_readmes(_src: Path, project: Project):
     return component_indices
 
 
+def link_cirrus_geo_docs(_src: Path):
+    import cirrus.docs.src as src
+    return utils.make_link(_src, 'cirrus', Path(src.__file__).parent)
+
+
+def link_cirrus_lib_docs(_src: Path):
+    import cirrus.lib.docs.src as src
+    return utils.make_link(_src, 'cirrus-lib', Path(src.__file__).parent)
+
+
+def link_project_docs(_src: Path, docs: Path):
+    return utils.make_link(_src, 'project', misc.relative_to(_src, docs.joinpath('src')))
+
+
 def compile_project_docs(project: Project):
     docs = project.path.joinpath('docs')
     _src = utils.make_dir(docs, '_src')
     # link conf.py into _src
     utils.make_link(_src, 'conf.py', docs.joinpath('conf.py'))
     # cirrus docs
-    utils.make_link(_src, 'cirrus', Path(src.__file__).parent)
+    link_cirrus_geo_docs(_src)
+    link_cirrus_lib_docs(_src)
     # project docs
-    utils.make_link(_src, 'project', misc.relative_to(_src, docs.joinpath('src')))
+    link_project_docs(_src, docs)
     # plugin docs
-    plugin_indices = compile_plugins(_src)
+    plugin_indices = compile_plugin_docs(_src)
     # pull in component READMEs
     component_indices = compile_component_readmes(_src, project)
 
@@ -146,6 +160,10 @@ def compile_project_docs(project: Project):
     index_sections.append(make_toctree(
         ['cirrus/index'],
         caption='Cirrus documentation',
+    ))
+    index_sections.append(make_toctree(
+        ['cirrus-lib/index'],
+        caption='Cirrus-lib documentation',
     ))
     if plugin_indices:
         index_sections.append(make_toctree(
