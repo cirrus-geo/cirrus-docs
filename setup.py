@@ -4,7 +4,10 @@ import os.path
 
 from setuptools import setup, find_namespace_packages
 
+from src.cirrus.plugins.docs.constants import DESC
 
+
+NAME = 'cirrus-docs'
 HERE = os.path.abspath(os.path.dirname(__file__))
 VERSION = os.environ.get('PLUGIN_VERSION', '0.0.0')
 
@@ -20,11 +23,11 @@ dependency_links = [x.strip().replace('git+', '') for x in reqs if 'git+' not in
 
 
 setup(
-    name='cirrus-docs',
+    name=NAME,
     packages=find_namespace_packages('src'),
     package_dir={'': 'src'},
     version=VERSION,
-    description='cirrus-geo plugin to a docs cli subcommand',
+    description=DESC,
     long_description=readme,
     long_description_content_type='text/markdown',
     author='Jarrett Keifer (jkeifer), Element 84',
@@ -39,8 +42,10 @@ setup(
         'Programming Language :: Python :: 3.9'
     ],
     license='Apache-2.0',
-    entry_points='''
+    entry_points=f'''
         [cirrus.plugins]
+        {NAME}=cirrus.plugins.docs
+        [cirrus.commands]
         docs=cirrus.plugins.docs.command:docs
     ''',
 )
