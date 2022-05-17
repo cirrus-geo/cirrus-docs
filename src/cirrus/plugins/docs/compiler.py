@@ -53,20 +53,7 @@ def make_section(title: str, subsections: [str], heading: int) -> str:
     return ('\n' * 3).join([f'{title}\n{heading_char * len(title)}'] + subsections)
 
 
-def compile_project_docs(project: Project):
-    docs = project.path.joinpath('docs')
-    _src = utils.make_dir(docs, '_src')
-
-    # link conf.py into _src
-    utils.make_link(_src, 'conf.py', docs.joinpath('conf.py'))
-
-    # cirrus docs
-    utils.make_link(_src, 'cirrus', Path(src.__file__).parent)
-
-    # project docs
-    utils.make_link(_src, 'project', misc.relative_to(_src, docs.joinpath('src')))
-
-    # plugin docs
+def compile_plugins(_src: Path):
     plugin_indices = []
     plugins = utils.make_dir(_src, 'plugins')
     for plugin in iter_entry_points('cirrus.plugins'):
@@ -93,7 +80,10 @@ def compile_project_docs(project: Project):
 
         plugin_indices.append(f'{plugin.name} <plugins/{plugin.name}/index>')
 
-    # pull in component READMEs
+    return plugin_indices
+
+
+def compile_component_readmes(_src: Path, project: Project):
     component_indices = []
     comp_dir = utils.make_dir(_src, 'components')
     for group in project.groups:
@@ -101,7 +91,6 @@ def compile_project_docs(project: Project):
             continue
 
         group_dir = utils.make_dir(comp_dir, group.group_name)
-        component_indices.append(f'{group.group_name}/index')
 
         readmes = []
         for component in group:
@@ -129,17 +118,35 @@ def compile_project_docs(project: Project):
             overwrite=True,
         )
 
+        component_indices.append(f'{group.group_display_name} <{group.group_name}/index>')
+
+    return component_indices
+
+
+def compile_project_docs(project: Project):
+    docs = project.path.joinpath('docs')
+    _src = utils.make_dir(docs, '_src')
+    # link conf.py into _src
+    utils.make_link(_src, 'conf.py', docs.joinpath('conf.py'))
+    # cirrus docs
+    utils.make_link(_src, 'cirrus', Path(src.__file__).parent)
+    # project docs
+    utils.make_link(_src, 'project', misc.relative_to(_src, docs.joinpath('src')))
+    # plugin docs
+    plugin_indices = compile_plugins(_src)
+    # pull in component READMEs
+    component_indices = compile_component_readmes(_src, project)
+
+    # top-level index
     index_sections = ['Welcome to the docs for |project_name|!']
     index_sections.append(make_toctree(
         ['project/index'],
         caption='Project documentation',
     ))
-
     index_sections.append(make_toctree(
         ['cirrus/index'],
         caption='Cirrus documentation',
     ))
-
     if plugin_indices:
         index_sections.append(make_toctree(
             plugin_indices,
@@ -148,7 +155,6 @@ def compile_project_docs(project: Project):
             maxdepth=1,
             titles_only=True,
         ))
-
     if component_indices:
         index_sections.append(make_toctree(
             ['components/*/index'],
@@ -157,8 +163,6 @@ def compile_project_docs(project: Project):
             glob=True,
             titles_only=True,
         ))
-
-    # top-level index
     utils.make_file(
         _src,
         'index.rst',
