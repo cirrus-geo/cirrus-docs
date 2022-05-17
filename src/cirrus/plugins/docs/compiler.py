@@ -123,17 +123,26 @@ def compile_component_readmes(_src: Path, project: Project):
 
 
 def link_cirrus_geo_docs(_src: Path):
-    import cirrus.docs.src as src
+    try:
+        import cirrus.docs.src as src
+    except ImportError:
+        return None
     return utils.make_link(_src, 'cirrus', Path(src.__file__).parent)
 
 
 def link_cirrus_lib_docs(_src: Path):
-    import cirrus.lib.docs.src as src
+    try:
+        import cirrus.lib.docs.src as src
+    except ImportError:
+        return None
     return utils.make_link(_src, 'cirrus-lib', Path(src.__file__).parent)
 
 
 def link_project_docs(_src: Path, docs: Path):
-    return utils.make_link(_src, 'project', misc.relative_to(_src, docs.joinpath('src')))
+    src = docs.joinpath('src')
+    if not src.is_dir():
+        return None
+    return utils.make_link(_src, 'project', misc.relative_to(_src, src))
 
 
 def compile_project_docs(project: Project):
@@ -142,10 +151,10 @@ def compile_project_docs(project: Project):
     # link conf.py into _src
     utils.make_link(_src, 'conf.py', docs.joinpath('conf.py'))
     # cirrus docs
-    link_cirrus_geo_docs(_src)
-    link_cirrus_lib_docs(_src)
+    has_cirrus = link_cirrus_geo_docs(_src)
+    has_cirrus_lib = link_cirrus_lib_docs(_src)
     # project docs
-    link_project_docs(_src, docs)
+    has_project = link_project_docs(_src, docs)
     # plugin docs
     plugin_indices = compile_plugin_docs(_src)
     # pull in component READMEs
@@ -153,18 +162,21 @@ def compile_project_docs(project: Project):
 
     # top-level index
     index_sections = ['Welcome to the docs for |project_name|!']
-    index_sections.append(make_toctree(
-        ['project/index'],
-        caption='Project documentation',
-    ))
-    index_sections.append(make_toctree(
-        ['cirrus/index'],
-        caption='Cirrus documentation',
-    ))
-    index_sections.append(make_toctree(
-        ['cirrus-lib/index'],
-        caption='Cirrus-lib documentation',
-    ))
+    if has_project:
+        index_sections.append(make_toctree(
+            ['project/index'],
+            caption='Project documentation',
+        ))
+    if has_cirrus:
+        index_sections.append(make_toctree(
+            ['cirrus/index'],
+            caption='Cirrus documentation',
+        ))
+    if has_cirrus_lib:
+        index_sections.append(make_toctree(
+            ['cirrus-lib/index'],
+            caption='Cirrus-lib documentation',
+        ))
     if plugin_indices:
         index_sections.append(make_toctree(
             plugin_indices,
