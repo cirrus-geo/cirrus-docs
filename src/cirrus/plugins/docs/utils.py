@@ -2,6 +2,15 @@ import shutil
 
 from pathlib import Path
 
+from cirrus.core.project import Project
+
+
+def doc_dirs_from_project(project: Project):
+    docs = project.path.joinpath('docs')
+    _src = docs.joinpath('_src')
+    _build = docs.joinpath('_build')
+    return docs, _src, _build
+
 
 def make_dir(parent: Path, name: str) -> Path:
     path = parent.joinpath(name)
