@@ -35,7 +35,7 @@ def make_link(parent: Path, name: str, target: Path, force=False) -> Path:
 
     if path.is_symlink() and path.readlink() == target:
         return path
-    elif not (force or path.exists()):
+    elif not (force and path.exists()):
         pass
     elif path.is_dir() and not path.is_symlink():
         shutil.rmtree(path)

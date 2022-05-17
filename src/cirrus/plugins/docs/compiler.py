@@ -9,10 +9,33 @@ from cirrus.core.utils import misc
 from . import utils
 
 
+HEADING_LEVELS = {
+    1: '=',
+    2: '-',
+    3: '*',
+    4: '^',
+}
 
-def make_toctree(toc_items: [str], maxdepth: int=2, caption: str=None) -> str:
+
+def make_toctree(
+    toc_items: [str],
+    maxdepth: int=2,
+    caption: str=None,
+    titles_only: bool=False,
+    glob: bool=False,
+    hidden: bool=False,
+) -> str:
     toctree = ['.. toctree::']
     toctree.append(f'   :maxdepth: {maxdepth}')
+
+    if hidden:
+        toctree.append('   :hidden:')
+
+    if glob:
+        toctree.append('   :glob:')
+
+    if titles_only:
+        toctree.append('   :titlesonly:')
 
     if caption:
         toctree.append(f'   :caption: {caption}')
@@ -25,80 +48,9 @@ def make_toctree(toc_items: [str], maxdepth: int=2, caption: str=None) -> str:
     return '\n'.join(toctree)
 
 
-def make_index_section(title: str, toctree: str, desc: str=None, heading_char='-') -> str:
-    section = [title]
-    section.append(heading_char * len(title))
-    section.append('')
-
-    if desc:
-        section.append(desc)
-        section.append('')
-
-    section.append(toctree)
-
-    return '\n'.join(section)
-
-
-def generate_index(
-    has_project: bool=True,
-    has_cirrus: bool=True,
-    has_plugins: bool=True,
-    has_components: bool=True,
-):
-    index = '''|project_name| pipeline documentation
-=====================================
-
-Welcome to the docs for |project_name|!
-
-
-'''
-
-    if has_project:
-        index += make_index_section(
-            'Project documentation',
-            make_toctree(['project/index']),
-        )
-        index += '\n'*3
-
-    if has_cirrus:
-        index += make_index_section(
-            'Cirrus documentation',
-            make_toctree(['cirrus/index']),
-        )
-        index += '\n'*3
-
-    if has_plugins:
-        index += make_index_section(
-            'Plugin documentation',
-            make_toctree(['plugins/index']),
-        )
-        index += '\n'*3
-
-    if has_components:
-        index += make_index_section(
-            'Component READMEs',
-            make_toctree(['components/index']),
-            desc='Documentation for components built-in, from plugins, and from the project.',
-        )
-        index += '\n'*3
-
-    index += '''Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-'''
-
-    return index
-
-
-def placeholder(name: str, text: str, heading_char: str='='):
-    content = [name]
-    content.append(heading_char * len(name))
-    content.append('')
-    content.append(text)
-    return '\n'.join(content)
+def make_section(title: str, subsections: [str], heading: int) -> str:
+    heading_char = HEADING_LEVELS[heading]
+    return ('\n' * 3).join([f'{title}\n{heading_char * len(title)}'] + subsections)
 
 
 def compile_project_docs(project: Project):
@@ -122,10 +74,15 @@ def compile_project_docs(project: Project):
             plugin_docs = import_module(plugin.module_name + '.docs.src')
         except ImportError as e:
             plugin_dir = utils.make_dir(plugins, plugin.name)
-            utils.make_file(plugin_dir, 'index.rst', text=placeholder(
-                plugin.name,
-                'Plugin is either missing documentation or docs are misconfigured.',
-            ))
+            utils.make_file(
+                plugin_dir,
+                'index.rst',
+                text=make_section(
+                    plugin.name,
+                    ['Plugin is either missing documentation or docs are misconfigured.'],
+                    1,
+                ),
+            )
         else:
             utils.make_link(
                 plugins,
@@ -134,27 +91,17 @@ def compile_project_docs(project: Project):
                 force=True,
             )
 
-        plugin_indices.append(f'{plugin.name}/index')
-
-    utils.make_file(
-        plugins,
-        'index.rst',
-        text=make_index_section(
-            'Installed plugins',
-            make_toctree(plugin_indices),
-        ),
-        overwrite=True,
-    )
+        plugin_indices.append(f'{plugin.name} <plugins/{plugin.name}/index>')
 
     # pull in component READMEs
-    comp_indices = []
+    component_indices = []
     comp_dir = utils.make_dir(_src, 'components')
     for group in project.groups:
         if not hasattr(group, 'readme'):
             continue
 
         group_dir = utils.make_dir(comp_dir, group.group_name)
-        comp_indices.append(f'{group.group_name}/index')
+        component_indices.append(f'{group.group_name}/index')
 
         readmes = []
         for component in group:
@@ -162,40 +109,63 @@ def compile_project_docs(project: Project):
             utils.make_file(
                 group_dir,
                 name,
-                text=(component.readme.content or placeholder(
+                text=(component.readme.content or make_section(
                     component.name,
-                    'This component appears to missing a README.',
+                    ['This component appears to missing a README.'],
+                    1,
                 )),
                 overwrite=True,
             )
-            readmes.append(name)
+            readmes.append(f'{component.name} <{name}>')
 
         utils.make_file(
             group_dir,
             'index.rst',
-            text=make_index_section(
-                f'Available {group.group_name}',
-                make_toctree(readmes),
+            text=make_section(
+                f'{group.group_display_name}',
+                [make_toctree(readmes, titles_only=True, glob=True, maxdepth=1)],
+                1,
             ),
             overwrite=True,
         )
 
-    utils.make_file(
-        comp_dir,
-        'index.rst',
-        text=make_index_section(
-            'Component READMEs',
-            make_toctree(comp_indices),
-        ),
-        overwrite=True,
-    )
+    index_sections = ['Welcome to the docs for |project_name|!']
+    index_sections.append(make_toctree(
+        ['project/index'],
+        caption='Project documentation',
+    ))
+
+    index_sections.append(make_toctree(
+        ['cirrus/index'],
+        caption='Cirrus documentation',
+    ))
+
+    if plugin_indices:
+        index_sections.append(make_toctree(
+            plugin_indices,
+            caption='Plugin documentation',
+            glob=True,
+            maxdepth=1,
+            titles_only=True,
+        ))
+
+    if component_indices:
+        index_sections.append(make_toctree(
+            ['components/*/index'],
+            caption='Component READMEs',
+            maxdepth=2,
+            glob=True,
+            titles_only=True,
+        ))
 
     # top-level index
     utils.make_file(
         _src,
         'index.rst',
-        text=generate_index(
-            has_plugins=bool(plugin_indices),
+        text=make_section(
+            '|project_name| pipeline documentation',
+            index_sections,
+            1,
         ),
         overwrite=True,
     )
