@@ -17,12 +17,34 @@ def docs():
 
 @docs.command()
 @utils_click.requires_project
-def compile(project):
+def stage(project):
     '''
-    Compile all documentation source into docs build directory.
+    Stage all docs sources in preparation for sphinx build.
     '''
-    from .import compiler
+    from . import compiler
     compiler.compile_project_docs(project)
+
+
+@docs.command()
+@utils_click.requires_project
+def build(project):
+    '''
+    Build all docs from source into html.
+    '''
+    from . import compiler
+    from . import builder
+    compiler.compile_project_docs(project)
+    builder.build_html(project)
+
+
+@docs.command()
+@utils_click.requires_project
+def clean(project):
+    '''
+    Remove docs staging and build directories.
+    '''
+    from . import builder
+    builder.clean(project)
 
 
 @docs.command()
