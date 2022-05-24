@@ -1,8 +1,9 @@
 Welcome to the cirrus-docs plugin documentation!
 ================================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+The cirrus-docs plugin for cirrus-geo provides a collection of cli commands
+useful for building project documentation.
 
-   test
+.. click:: cirrus.plugins.docs.commands:docs
+   :prog: cirrus docs
+   :nested: full

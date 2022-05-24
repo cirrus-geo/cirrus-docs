@@ -15,11 +15,6 @@ def docs():
 
 
 @docs.command()
-def check_vars(**kwargs):
-    print(*kwargs.values())
-
-
-@docs.command()
 @utils_click.pass_project
 @utils.staging_dir
 @utils.project_src_dir
