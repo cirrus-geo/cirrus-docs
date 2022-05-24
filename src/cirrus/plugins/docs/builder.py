@@ -1,24 +1,10 @@
 import shlex
 
+from pathlib import Path
 from sphinx.cmd import build
 
-from cirrus.core.project import Project
 
-from . import utils
-
-def doc_dirs_from_project(project: Project):
-    docs = project.path.joinpath('docs')
-    _src = docs.joinpath('_src')
-    _build = docs.joinpath('_build')
-    return docs, _src, _build
-
-def build_html(project: Project):
-    _, _src, _build = utils.doc_dirs_from_project(project)
-    build.main(shlex.split(f'-M html {_src} {_build}'))
-
-
-def clean(project: Project):
-    import shutil
-    _, _src, _build = utils.doc_dirs_from_project(project)
-    shutil.rmtree(_src)
-    shutil.rmtree(_build)
+# TODO: support other formats
+# TODO: support custom build commands
+def build_html(output_dir: Path, staging_dir: Path) -> None:
+    build.main(shlex.split(f'-M html {staging_dir} {output_dir}'))
