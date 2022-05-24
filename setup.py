@@ -42,10 +42,11 @@ setup(
         'Programming Language :: Python :: 3.9'
     ],
     license='Apache-2.0',
+    include_package_data=True,
     entry_points=f'''
         [cirrus.plugins]
         {NAME}=cirrus.plugins.docs
         [cirrus.commands]
-        docs=cirrus.plugins.docs.command:docs
+        docs=cirrus.plugins.docs.commands:docs
     ''',
 )

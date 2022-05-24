@@ -1,6 +1,7 @@
 from importlib import import_module
 from pathlib import Path
 from pkg_resources import iter_entry_points
+from typing import List
 
 from cirrus.core.project import Project
 from cirrus.core.utils import misc
@@ -48,13 +49,16 @@ def make_toctree(
 
 
 def make_section(title: str, subsections: [str], heading: int) -> str:
-    heading_char = HEADING_LEVELS[heading]
-    return ('\n' * 3).join([f'{title}\n{heading_char * len(title)}'] + subsections)
+    heading_str = ''
+    if heading is not None:
+        heading_char = HEADING_LEVELS[heading]
+        heading_str = heading_char * len(title)
+    return ('\n' * 3).join([f'{title}\n{heading_str}'] + subsections)
 
 
-def compile_plugin_docs(_src: Path):
+def compile_plugin_docs(staging_dir: Path):
     plugin_indices = []
-    plugins = utils.make_dir(_src, 'plugins')
+    plugins = utils.make_dir(staging_dir, 'plugins')
     for plugin in iter_entry_points('cirrus.plugins'):
         try:
             plugin_docs = import_module(plugin.module_name + '.docs.src')
@@ -82,8 +86,8 @@ def compile_plugin_docs(_src: Path):
     return plugin_indices
 
 
-def generate_plugins(_src: Path):
-    plugin_indices = compile_plugin_docs(_src)
+def generate_plugins(staging_dir: Path):
+    plugin_indices = compile_plugin_docs(staging_dir)
     if plugin_indices:
         return make_toctree(
             plugin_indices,
@@ -94,9 +98,9 @@ def generate_plugins(_src: Path):
         )
 
 
-def compile_component_readmes(_src: Path, project: Project):
+def compile_component_readmes(staging_dir: Path, project: Project):
     component_indices = []
-    comp_dir = utils.make_dir(_src, 'components')
+    comp_dir = utils.make_dir(staging_dir, 'components')
     for group in project.groups:
         if not hasattr(group, 'readme'):
             continue
@@ -134,8 +138,8 @@ def compile_component_readmes(_src: Path, project: Project):
     return component_indices
 
 
-def generate_components(_src: Path, project: Project):
-    component_indices = compile_component_readmes(_src, project)
+def generate_components(staging_dir: Path, project: Project):
+    component_indices = compile_component_readmes(staging_dir, project)
     if component_indices:
         return make_toctree(
             ['components/*/index'],
@@ -146,72 +150,78 @@ def generate_components(_src: Path, project: Project):
         )
 
 
-def link_cirrus_geo_docs(_src: Path):
+def link_cirrus_geo_docs(staging_dir: Path):
     try:
         import cirrus.docs.src as src
     except ImportError:
         return None
-    return utils.make_link(_src, 'cirrus', Path(src.__file__).parent)
+    return utils.make_link(staging_dir, 'cirrus', Path(src.__file__).parent)
 
 
-def generate_cirrus_geo(_src: Path):
-    if link_cirrus_geo_docs(_src):
+def generate_cirrus_geo(staging_dir: Path):
+    if link_cirrus_geo_docs(staging_dir):
         return make_toctree(
-            ['cirrus/index'],
+            ['cirrus/*'],
             caption='Cirrus documentation',
+            glob=True,
         )
 
 
-def link_cirrus_lib_docs(_src: Path):
+def link_cirrus_lib_docs(staging_dir: Path):
     try:
         import cirrus.lib.docs.src as src
     except ImportError:
         return None
-    return utils.make_link(_src, 'cirrus-lib', Path(src.__file__).parent)
+    return utils.make_link(staging_dir, 'cirrus-lib', Path(src.__file__).parent)
 
 
-def generate_cirrus_lib(_src: Path):
-    if link_cirrus_lib_docs(_src):
+def generate_cirrus_lib(staging_dir: Path):
+    if link_cirrus_lib_docs(staging_dir):
         return make_toctree(
-            ['cirrus-lib/index'],
+            ['cirrus-lib/*'],
             caption='Cirrus-lib documentation',
+            glob=True,
         )
 
 
-def link_project_docs(_src: Path, docs: Path):
-    src = docs.joinpath('src')
-    if not src.is_dir():
+def link_project_docs(staging_dir: Path, project_docs_src: Path):
+    if not project_docs_src.is_dir():
         return None
-    return utils.make_link(_src, 'project', misc.relative_to(_src, src))
+    return utils.make_link(staging_dir, 'project', misc.relative_to(staging_dir, project_docs_src))
 
 
-def generate_project(_src: Path, docs: Path):
-    if link_project_docs(_src, docs):
+def generate_project(staging_dir: Path, project_docs_src: Path):
+    if link_project_docs(staging_dir, project_docs_src):
         return make_toctree(
-            ['project/index'],
+            ['project/*'],
             caption='Project documentation',
+            glob=True,
         )
 
 
-def compile_project_docs(project: Project):
-    docs, _src, _ = utils.doc_dirs_from_project(project)
-    _src.mkdir(exist_ok=True)
-    utils.make_link(_src, 'conf.py', docs.joinpath('conf.py'))
+def compile(
+    conf_file: Path,
+    staging_dir: Path,
+    sections: List[str],
+    custom_index_include: Path=None,
+):
+    staging_dir.mkdir(exist_ok=True)
+    utils.make_link(staging_dir, 'conf.py', conf_file)
 
-    index_sections = ['Welcome to the docs for |project_name|!']
-    index_sections.append(generate_project(_src, docs))
-    index_sections.append(generate_cirrus_geo(_src))
-    index_sections.append(generate_cirrus_lib(_src))
-    index_sections.append(generate_plugins(_src))
-    index_sections.append(generate_components(_src, project))
+    if custom_index_include:
+        utils.make_link(staging_dir, 'index.include', custom_index_include)
+        title = f'.. include:: index.include'
+    else:
+        title = '|project_name| pipeline documentation'
+        sections = ['Welcome to the docs for |project_name|!'] + sections
 
     utils.make_file(
-        _src,
+        staging_dir,
         'index.rst',
         text=make_section(
-            '|project_name| pipeline documentation',
-            [ele for ele in index_sections if ele],
-            1,
+            title,
+            sections,
+            None,
         ),
         overwrite=True,
     )
