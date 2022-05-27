@@ -81,6 +81,7 @@ def is_project_src_required(ctx, self, value):
         raise click.BadParameter(
             'Must provide project docs source directory if project docs included',
         )
+    return value
 
 
 def project_src_dir(func):
