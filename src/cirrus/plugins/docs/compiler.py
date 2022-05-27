@@ -61,7 +61,7 @@ def compile_plugin_docs(staging_dir: Path):
     plugins = utils.make_dir(staging_dir, 'plugins')
     for plugin in iter_entry_points('cirrus.plugins'):
         try:
-            plugin_docs = import_module(plugin.module_name + '.docs.src')
+            plugin_docs = import_module(plugin.module_name + '.docs')
         except ImportError as e:
             plugin_dir = utils.make_dir(plugins, plugin.name)
             utils.make_file(
@@ -152,7 +152,7 @@ def generate_components(staging_dir: Path, project: Project):
 
 def link_cirrus_geo_docs(staging_dir: Path):
     try:
-        import cirrus.docs.src as src
+        import cirrus.docs as src
     except ImportError:
         return None
     return utils.make_link(staging_dir, 'cirrus', Path(src.__file__).parent)
@@ -169,7 +169,7 @@ def generate_cirrus_geo(staging_dir: Path):
 
 def link_cirrus_lib_docs(staging_dir: Path):
     try:
-        import cirrus.lib.docs.src as src
+        import cirrus.lib.docs as src
     except ImportError:
         return None
     return utils.make_link(staging_dir, 'cirrus-lib', Path(src.__file__).parent)
