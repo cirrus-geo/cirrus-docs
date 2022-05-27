@@ -30,7 +30,7 @@ author = 'Element 84'
 extensions = [
     'myst_parser',
     'sphinxcontrib.mermaid',
-    #'sphinx.ext.autosectionlabel',
+    'sphinx_click',
 ]
 
 source_suffix = {
