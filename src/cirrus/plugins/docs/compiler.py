@@ -211,9 +211,11 @@ def compile(
     if custom_index_include:
         utils.make_link(staging_dir, 'index.include', custom_index_include)
         title = f'.. include:: index.include'
+        heading = None
     else:
         title = '|project_name| pipeline documentation'
         sections = ['Welcome to the docs for |project_name|!'] + sections
+        heading = 1
 
     utils.make_file(
         staging_dir,
@@ -221,7 +223,7 @@ def compile(
         text=make_section(
             title,
             sections,
-            None,
+            heading,
         ),
         overwrite=True,
     )
