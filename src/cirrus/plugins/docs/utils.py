@@ -7,6 +7,19 @@ from click_option_group import OptionGroup
 from cirrus.core.project import Project
 
 
+def clean_dir(directory: Path) -> None:
+    import shutil
+
+    if not directory.is_dir():
+        return
+
+    for f in directory.iterdir():
+        if not f.is_symlink() and f.is_dir():
+            shutil.rmtree(f)
+        else:
+            f.unlink()
+
+
 class OptionProjectDefault(click.Option):
     def get_default(self, ctx, call=False):
         # we always want to resolve a value, for help messages,

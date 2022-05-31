@@ -90,9 +90,12 @@ def clean(output_dir, staging_dir):
     '''
     Remove all files from staging and build directories.
     '''
-    from cirrus.core.utils.misc import clean_dir
-    clean_dir(output_dir)
-    clean_dir(staging_dir)
+    # TODO: once clean_dir is in a cirrus release update the
+    # required cirrus-geo version and replace the it here with
+    # the one imported from cirrus-geo and clean up in utils
+    #from cirrus.core.utils.misc import clean_dir
+    utils.clean_dir(output_dir)
+    utils.clean_dir(staging_dir)
 
 
 @docs.command()
