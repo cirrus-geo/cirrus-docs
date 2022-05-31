@@ -62,7 +62,7 @@ def compile_plugin_docs(staging_dir: Path):
     for plugin in iter_entry_points('cirrus.plugins'):
         try:
             plugin_docs = import_module(plugin.module_name + '.docs')
-        except ImportError as e:
+        except ImportError:
             plugin_dir = utils.make_dir(plugins, plugin.name)
             utils.make_file(
                 plugin_dir,
@@ -210,7 +210,7 @@ def compile(
 
     if custom_index_include:
         utils.make_link(staging_dir, 'index.include', custom_index_include)
-        title = f'.. include:: index.include'
+        title = '.. include:: index.include'
         heading = None
     else:
         title = '|project_name| pipeline documentation'
