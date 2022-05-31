@@ -1,3 +1,4 @@
+cirrus-geo~=0.6.0
 sphinx~=4.4
 myst_parser~=0.17.0
 sphinxcontrib-mermaid~=0.7.1
