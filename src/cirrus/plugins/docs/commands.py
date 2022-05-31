@@ -48,20 +48,21 @@ def stage(
     clean_dir(staging_dir)
 
     sections = []
-    if include_project_docs and (
-        section := compiler.generate_project(staging_dir, project_src_dir)
-    ):
-        sections.append(section)
-    if include_core_docs and (section := compiler.generate_cirrus_geo(staging_dir)):
-        sections.append(section)
-    if include_lib_docs and (section := compiler.generate_cirrus_lib(staging_dir)):
-        sections.append(section)
-    if include_plugin_docs and (section := compiler.generate_plugins(staging_dir)):
-        sections.append(section)
-    if include_component_docs and (
-        section := compiler.generate_components(staging_dir, project)
-    ):
-        sections.append(section)
+    if include_project_docs:
+        section = compiler.generate_project(staging_dir, project_src_dir)
+        sections.append(section) if section else None
+    if include_core_docs:
+        section = compiler.generate_cirrus_geo(staging_dir)
+        sections.append(section) if section else None
+    if include_lib_docs:
+        section = compiler.generate_cirrus_lib(staging_dir)
+        sections.append(section) if section else None
+    if include_plugin_docs:
+        section = compiler.generate_plugins(staging_dir)
+        sections.append(section) if section else None
+    if include_component_docs:
+        section = compiler.generate_components(staging_dir, project)
+        sections.append(section) if section else None
 
     compiler.compile(
         conf_file,
