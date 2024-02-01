@@ -10,7 +10,6 @@ project instance to develop and build documentation, pulling in the docs for
 cirrus-geo, cirrus-lib, all of the available components, and any installed
 plugins.
 
-
 ## Quickstart
 
 cirrus-docs in `pip`-installable:
@@ -19,7 +18,7 @@ cirrus-docs in `pip`-installable:
 pip install cirrus-docs
 ```
 
-When installed alonside [cirrus-geo], it will add a `docs` subcommand to the `cirrus` cli, which can be used within a cirrus project to initialize, stage, and build the project documentation:
+When installed alongside [cirrus-geo], it will add a `docs` subcommand to the `cirrus` cli, which can be used within a Cirrus project to initialize, stage, and build the project documentation:
 
 ```
 ~ ❯ cd project-dir
@@ -30,7 +29,6 @@ When installed alonside [cirrus-geo], it will add a `docs` subcommand to the `ci
 
 cirrus-docs is built on top of [sphinx]. See the [full plugin
 documentation][docs] for more information about how to use it.
-
 
 [sphinx]: https://www.sphinx-doc.org/en/master/
 [docs]: https://cirrus-geo.github.io/cirrus-docs/
