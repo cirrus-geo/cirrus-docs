@@ -1,6 +1,6 @@
-cirrus-geo>=0.7.0
-sphinx~=4.4
-myst_parser~=0.17.0
-sphinxcontrib-mermaid~=0.7.1
-click-option-group~=0.5.3
-sphinx-click~=4.0
+cirrus-geo~=0.10.0
+sphinx~=7.2.0
+myst_parser~=2.0.0
+sphinxcontrib-mermaid~=0.9.2
+click-option-group~=0.5.6
+sphinx-click~=5.1.0
