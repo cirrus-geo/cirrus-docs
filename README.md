@@ -2,6 +2,8 @@
 [![coverage-status-image]][codecov]
 [![pypi-version]][pypi]
 
+**This repo has been archived and is no longer maintained.**
+
 # cirrus-docs
 
 cirrus-docs is a plugin for the [cirrus-geo] processing pipeline framework to
